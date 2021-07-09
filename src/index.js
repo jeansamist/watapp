@@ -4,6 +4,7 @@ import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
 
 // styles
+import './assets/styles/css/bootstrap-grid.min.css';
 import './assets/styles/css/master.css';
 
 ReactDOM.render(

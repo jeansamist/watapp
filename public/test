@@ -1,0 +1,19 @@
+
+    const data = (canvas) => {
+      // const ctx = canvas.getContext("2d")
+      // const gradient = ctx.createLinearGradient(0, 0, 0, 1000);
+      // gradient.addColorStop(0, "#52B788")
+      // gradient.addColorStop(1, "rgba(255,255,255,0)")
+      return {
+        labels: this.state.chartData.labels,
+        datasets: [{
+          label: this.state.chartData.title,
+          data: this.state.chartData.data,
+          fill: true,
+          tension: 0.4,
+          backgroundColor: "#52b7888e",
+          borderColor: "#52B788",
+          borderWidth: 3
+        }]
+      }
+    }

@@ -1,5 +1,11 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+// import Topbar from './../components/Topbar.jsx'
+import {CurrencyDollar, BagFill, PeopleFill} from 'react-bootstrap-icons';
+
+// Components
+import Chart from './../components/Chart.jsx'
+import StatCard from './../components/StatCard.jsx'
+import CatTitle from './../components/CatTitle.jsx'
 
 export default class Dashboard_view extends React.Component {
   constructor(props){
@@ -9,43 +15,36 @@ export default class Dashboard_view extends React.Component {
     }
   }
   componentDidMount(){
-    let c
+
   }
   render () {
-    const data = (canvas) => {
-      const ctx = canvas.getContext("2d")
-      const gradient = ctx.createLinearGradient(0,0,0, 1000);
-      gradient.addColorStop(0, "#52B788")
-      gradient.addColorStop(1, "rgba(255,255,255,0)")
-        return {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-              label: '# of Votes',
-              data: [65, 59, 80, 81, 56, 100, 40],
-              fill: true,
-              backgroundColor: gradient,
-              borderColor: "#52B788"
-            }
-          ]
-        }
-      }
     return <div className="dashboard view">
-      <div className="view-title title">
-        Dashboard
+      <div className="head">
+        <div className="view-title title">
+          Dashboard
+        </div>
+        <div className="statCard-container contain container-fluid">
+          <div className="row">
+            <StatCard title="Caisse" ico={<CurrencyDollar />} data={10000} />
+            <StatCard title="Ventes" ico={<BagFill />} data={23} />
+            <StatCard title="Clients" ico={<PeopleFill />} data={22} />
+            <StatCard title="ksds" ico={<BagFill />} data={10} />
+          </div>
+        </div>
       </div>
-      .
-
-      <Line
-        data={data}
-        options={{
-          maintainAspectRatio: false,
-          legend: {
-            display: false
-          }
-        }}
-        width={600}
-        height={400}
-      />
+      <div className="contain">
+        <div className="chartPresent container-fluid">
+          <CatTitle>Détail de la caisse</CatTitle>
+          <div className="row">
+            <div className="card col-sm-12 col-md-6">
+              <Chart type="line" data={{title: "Caisse depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >"], data: [78200,33000,56500,75000]}} />
+            </div>
+            <div className="card col-sm-12 col-md-6">
+              <Chart type="bar" data={{title: "Quelques montants des derniers achats d'aujourd'hui", labels: ["234", "235", "236", "237", "238"], data: [2245,8339,5564,6674,3451]}} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   }
 }

@@ -32,18 +32,22 @@ export default class Sidebar extends React.Component {
     let linksList = [
       {
         href: '/',
+        name: "Tablau de bord",
         Ico: <Icon.Grid1x2Fill />
       },
       {
         href: '/stockmanager',
-        Ico: <Icon.BoxSeam />
+        name: "Vente & Caisse",
+        Ico: <Icon.BagFill />
       },
       {
         href: '/customermanager',
+        name: "Gestion de clients",
         Ico: <Icon.PeopleFill />
       },
       {
         href: '/options',
+        name: "Paramètres",
         Ico: <Icon.GearFill />
       }
     ];
