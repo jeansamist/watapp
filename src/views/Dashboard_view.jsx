@@ -1,11 +1,11 @@
 import React from "react";
-import {CurrencyDollar, BagFill, PeopleFill, Grid1x2Fill} from 'react-bootstrap-icons';
+import {Grid1x2Fill} from 'react-bootstrap-icons';
 
 // Components
 import Chart from './../components/Chart.jsx'
-import StatCard from './../components/StatCard.jsx'
 import CatTitle from './../components/CatTitle.jsx'
 import Topbar from './../components/Topbar.jsx'
+import DashboardStats from './../components/Dashboard/DashboardStats.jsx'
 
 export default class Dashboard_view extends React.Component {
   constructor(props){
@@ -22,12 +22,7 @@ export default class Dashboard_view extends React.Component {
       <div className="head">
         <Topbar brand="Dashboard" ico={<Grid1x2Fill />} />
         <div className="statCard-container contain container-fluid">
-          <div className="row">
-            <StatCard title="Caisse" ico={<CurrencyDollar />} data={10000} />
-            <StatCard title="Ventes" ico={<BagFill />} data={23} />
-            <StatCard title="Clients" ico={<PeopleFill />} data={22} />
-            <StatCard title="ksds" ico={<BagFill />} data={10} />
-          </div>
+          <DashboardStats />
         </div>
       </div>
       <div className="contain">

@@ -21,13 +21,29 @@ class DropdownItem extends Component {
   }
 }
 class TopbarBtn extends Component {
+  // componentWillMount () {
+  //   let childs = this.props.children;
+  //   childs.forEach(child => {
+  //     child.props.onClick = () => {
+  //       console.log('click');
+  //     }
+  //   })
+  // }
+  handdleClick (event) {
+    event.preventDefault();
+    let parent = event.target.parentNode;
+    parent.addEventListener("click", (e)=>e.preventDefault())
+    parent.classList.toggle('active')
+  }
+
+  
   render() {
     return (
       <a href="//#endregion" className="topbar-btn">
-        <div className="icone">
+        <div className="icone" onClick={this.handdleClick.bind(this)}>
           {this.props.ico}
         </div>
-        <div className="dropdown">
+        <div className="dropdown active">
           {this.props.children}
         </div>
       </a>
@@ -40,7 +56,7 @@ export default class Topbar extends Component {
   render () {
     return <div className="topbar">
       <div className="topbar-brand">
-        {this.props.ico}   {this.props.brand}
+        {this.props.ico}{this.props.brand}
       </div>
       <div className="topbar-search">
 
@@ -61,9 +77,9 @@ export default class Topbar extends Component {
           </DropdownItem>
         </TopbarBtn>
         {/* <TopbarBtn ico={<Mailbox />} /> */}
-        <div className="topbar-user-btn">
-          {/* <img src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_960_720.png" alt="" /> */}
-        </div>
+        <a href="#" className="topbar-btn-user">
+          <img src={userDefault} alt="" />
+        </a>
       </div>
     </div>
   }
