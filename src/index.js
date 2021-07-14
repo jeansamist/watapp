@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.jsx';
+import ProtectedRoute from './controllers/ProtectedRoute.jsx';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import App from './controllers/App.jsx';
+import Login from './controllers/Login.jsx';
+// import Login from './Login.jsx';
 
 // styles
-import './assets/styles/css/bootstrap-grid.min.css';
 import './assets/styles/css/master.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Route path="/login" component={Login} />
+      <ProtectedRoute path="/" isLogin={true} component={App} />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
