@@ -8,6 +8,7 @@ import Login from './controllers/Login.jsx';
 // import Login from './Login.jsx';
 
 // styles
+import './assets/styles/css/bootstrap-grid.css';
 import './assets/styles/css/master.css';
 
 ReactDOM.render(

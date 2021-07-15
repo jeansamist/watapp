@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import applicationLogo from './../assets/images/app/logo/watapp-logo-svg.svg';
 import avatarDefault from './../assets/images/app/avatars/default.png';
-import { HouseDoorFill, BagFill, PeopleFill, GearFill, ArrowLeftCircleFill } from 'react-bootstrap-icons';
+import { HouseDoorFill, BagFill, PeopleFill, GearFill } from 'react-bootstrap-icons';
 import {
   Link
 } from "react-router-dom";
