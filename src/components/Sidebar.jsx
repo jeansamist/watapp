@@ -42,7 +42,7 @@ export default class Sidebar extends Component {
     {
       name: "Dashboard",
       ico: <HouseDoorFill />,
-      href: "#"
+      href: "/"
     },
     {
       name: "Commerce",
