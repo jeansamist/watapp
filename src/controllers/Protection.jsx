@@ -15,9 +15,18 @@ export default class Protection extends Component {
   }
   
   componentDidMount () {
-    let response = {
-      data: {
-        isLogin: false
+    let response;
+    try {
+      response = {
+        data: {
+          isLogin: localStorage.getItem('isLogin')
+        }
+      }
+    } catch (error) {
+      response = {
+        data: {
+          isLogin: false
+        }
       }
     }
     setTimeout(() => {
@@ -34,7 +43,7 @@ export default class Protection extends Component {
       return (
         <Router>
           <Route path="/login" component={Login} />
-          {console.log(this.state.isLogin)}
+          {console.log("isLogin", this.state.isLogin)}
           <ProtectedRoute path="/" isLogin={this.state.isLogin} component={App} />
         </Router>
       )

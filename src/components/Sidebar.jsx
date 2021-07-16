@@ -47,7 +47,7 @@ export default class Sidebar extends Component {
     {
       name: "Commerce",
       ico: <BagFill />,
-      href: "#"
+      href: "/shopping"
     },
     {
       name: "Clients",

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+// import { Redirect, Link } from 'react-router-dom'
 import { CardBoxForm } from '../components/Cards'
+import { ButtonReloaderLink } from '../components/Forms/Buttons'
 import Field from '../components/Forms/Field'
+
 
 
 export default class Login extends Component {
@@ -9,12 +11,15 @@ export default class Login extends Component {
     super(props)
   
     this.state = {
-      alert: null
+      alert: null,
+      login: false
     }
   }
 
   componentDidUpdate () {
-    console.log(this.state);
+    if (this.state.login) {
+      localStorage.setItem('isLogin', true);
+    }
   }
   
   handdleSubmit () {
@@ -32,15 +37,38 @@ export default class Login extends Component {
         error = true
       }
     })
+    if (!error) {
+      this.setState({login: true})
+    }
+    // <Redirect exact from="/login" to={{pathname: "../"}} />
   }
   render() {
-    return (
-      <div className="login-view login">
-        <CardBoxForm title="Login" callback={this.handdleSubmit.bind(this)} buttons={["login"]}>
-          <Field label="Pseudo" type="text" />
-          <Field label="Mot de passe" type="password" />
-        </CardBoxForm>
+    if (!this.state.login) {
+      return (
+        <div className="login-view login">
+          <CardBoxForm title="Login" callback={this.handdleSubmit.bind(this)} buttons={[
+            {
+              type: "submit",
+              name: "Login"
+            }
+          ]}>
+            <Field label="Pseudo" type="text" />
+            <Field label="Mot de passe" type="password" />
+          </CardBoxForm>
+        </div>
+      )
+    } else {
+      return <div className="card">
+        <div className="card-head">
+          <h1>WATTAP LOGIN SECURE</h1>
+        </div>
+        <div className="card-content">
+          Vous êtes Connecter
+        </div>
+        <div className="card-footer">
+          <ButtonReloaderLink to="/" name="Aller à l'accueil" />
+        </div>
       </div>
-    )
+    }
   }
 }
