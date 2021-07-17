@@ -4,6 +4,9 @@ import { HouseDoorFill } from "react-bootstrap-icons";
 import Stats from '../components/Dashboard/Stats.jsx';
 import Jumbotron from '../components/Dashboard/Jumbotron.jsx';
 import { Button } from '../components/Forms/Buttons'
+import Table from '../components/Table.jsx';
+import {CardWithoutFooter} from '../components/Cards.jsx';
+
 
 export default class DashboardView extends Component {
   render() {
@@ -22,47 +25,9 @@ export default class DashboardView extends Component {
             </div>
           </section>
           <section>
-            <table>
-              <thead>
-                <tr>
-                  <th>-</th>
-                  <th>Nom du produitt</th>
-                  <th>Quantité</th>
-                  <th>Prix unitaire</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><img src="https://grafikart.fr/uploads/avatars/2/18522.png" alt="" /></td>
-                  <td>Fil de fer</td>
-                  <td>23</td>
-                  <td>300</td>
-                  <td><Button type="submit" name="Show" /></td>
-                </tr>
-                <tr>
-                  <td><img src="https://grafikart.fr/uploads/avatars/2/18522.png" alt="" /></td>
-                  <td>Fil de fer</td>
-                  <td>23</td>
-                  <td>300</td>
-                  <td><Button type="submit" name="Show" /></td>
-                </tr>
-                <tr>
-                  <td><img src="https://grafikart.fr/uploads/avatars/2/18522.png" alt="" /></td>
-                  <td>Fil de fer</td>
-                  <td>23</td>
-                  <td>300</td>
-                  <td><Button type="submit" name="Show" /></td>
-                </tr>
-                <tr>
-                  <td><img src="https://grafikart.fr/uploads/avatars/2/18522.png" alt="" /></td>
-                  <td>Fil de fer</td>
-                  <td>23</td>
-                  <td>300</td>
-                  <td><Button type="submit" name="Show" /></td>
-                </tr>
-              </tbody>
-            </table>
+            <CardWithoutFooter title="Revu de stock">
+              <Table thead={["ID", "Nom du produit", "Quantités", "Prix unitaire", "Actions"]} tbody={[["1", "Gel de douche Balnéo", Math.round(Math.random() * 1000), Math.round(Math.random() * 10), <Button type="submit" name="Voir le produit"/>]]} />
+            </CardWithoutFooter>
           </section>
         </div>
       </div>

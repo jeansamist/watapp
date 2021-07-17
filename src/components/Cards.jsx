@@ -12,12 +12,25 @@ export class Card extends Component {
         <div className="card-content">
           {this.props.children}
         </div>
-        <div className="card-footer">
+        {
+          this.props.buttons !== undefined ? <div className="card-footer">
           {this.props.buttons.map((button, k) => <>
             {button.type === "link" ? <Button type={button.type} key={k} name={button.name} to={button.to} /> : <Button type={button.type} key={k} name={button.name} />}
           </>)}
-        </div>
+        </div> : ""
+        }
+        
       </div>
+    )
+  }
+}
+
+export class CardWithoutFooter extends Component {
+  render() {
+    return (
+      <Card title={this.props.title}>
+        {this.props.children}
+      </Card>
     )
   }
 }
