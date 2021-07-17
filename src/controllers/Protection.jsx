@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import App from './App.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Login from './Login.jsx';
+import SelectStructure from '../Views/SelectStructure.jsx';
+
+
+class GoToStructure extends Component {
+  render() {
+    return (
+      <Redirect to="/structures" />
+    )
+  }
+}
 
 export default class Protection extends Component {
   constructor(props) {
@@ -42,9 +52,13 @@ export default class Protection extends Component {
     if (this.state.isLoading) {
       return (
         <Router>
-          <Route path="/login" component={Login} />
+          <Route path="/login">
+            <Login isLogin={this.state.isLogin} />
+          </Route>
           {console.log("isLogin", this.state.isLogin)}
-          <ProtectedRoute path="/" isLogin={this.state.isLogin} component={App} />
+          <ProtectedRoute path="/structures" isLogin={this.state.isLogin} component={SelectStructure} />
+          <ProtectedRoute path="/watapp" isLogin={this.state.isLogin} component={App} redirectUrl="../login" />
+          <ProtectedRoute path="/" isLogin={this.state.isLogin} component={GoToStructure} />
         </Router>
       )
     } else {

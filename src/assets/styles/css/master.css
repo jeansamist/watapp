@@ -484,11 +484,6 @@ section {
   background: linear-gradient(45deg, var(--primary), transparent);
 }
 
-.login-view > form {
-  max-width: 400px;
-  width: 100%;
-}
-
 .card {
   width: 100%;
   background: #fff;
@@ -498,7 +493,19 @@ section {
   overflow: hidden;
 }
 
-.login-view > form > .card {
+.card-simple {
+  width: 100%;
+  padding: 1em;
+  background: #fff;
+  box-shadow: 0 1px 4px var(--shadow);
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+
+.login-view > .login-card {
+  max-width: 400px;
   width: 100%;
 }
 

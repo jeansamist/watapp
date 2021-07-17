@@ -25,6 +25,16 @@ export class Card extends Component {
   }
 }
 
+export class SimpleCard extends Component {
+  render() {
+    return (
+      <div className="card-simple">
+        {this.props.children}
+      </div>
+    )
+  }
+}
+
 export class CardWithoutFooter extends Component {
   render() {
     return (

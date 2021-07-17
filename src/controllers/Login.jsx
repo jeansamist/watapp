@@ -21,6 +21,10 @@ export default class Login extends Component {
       localStorage.setItem('isLogin', true);
     }
   }
+
+  componentDidMount () {
+    this.setState({login: this.props.isLogin})
+  }
   
   handdleSubmit () {
     let login = document.querySelector(".login")
@@ -58,15 +62,17 @@ export default class Login extends Component {
         </div>
       )
     } else {
-      return <div className="card">
-        <div className="card-head">
-          <h1>WATTAP LOGIN SECURE</h1>
-        </div>
-        <div className="card-content">
-          Vous êtes Connecter
-        </div>
-        <div className="card-footer">
-          <ButtonReloaderLink to="/" name="Aller à l'accueil" />
+      return <div className="login-view">
+        <div className="card login-card">
+          <div className="card-head">
+            <h1>WATTAP LOGIN SECURE</h1>
+          </div>
+          <div className="card-content">
+            Vous êtes Connecter
+          </div>
+          <div className="card-footer">
+            <ButtonReloaderLink to="/" name="Aller à l'accueil" />
+          </div>
         </div>
       </div>
     }

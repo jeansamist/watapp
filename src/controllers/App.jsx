@@ -3,7 +3,7 @@ import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route, Redirect
 } from "react-router-dom";
 
 // Components
@@ -13,6 +13,8 @@ import Sidebar from './../components/Sidebar.jsx'
 import DashboardView from "./../Views/DashboardView.jsx";
 import ShoppingView from "./../Views/ShoppingView.jsx";
 import ClientsView from "./../Views/ClientsView.jsx";
+// import SelectStructure from '../Views/SelectStructure.jsx';
+import PageNotFound from '../Views/404.jsx';
 
 class App extends React.Component {
   render () {
@@ -20,9 +22,13 @@ class App extends React.Component {
       <div className="master">
         <Sidebar k={0} />
         <Switch>
-          <Route path="/" exact component={DashboardView} />
-          <Route path="/shopping" component={ShoppingView} />
-          <Route path="/clients" component={ClientsView} />
+          <Route path="/" exact render={() => {
+            return <Redirect to={"/structures"} />
+          }} />
+          <Route path="/watapp/dashboard/:structure" component={DashboardView} />
+          <Route path="/watapp/shopping/:structure" component={ShoppingView} />
+          <Route path="/watapp/clients/:structure" component={ClientsView} />
+          <Route path="*" component={PageNotFound} />
         </Switch>
       </div>
     </Router>
