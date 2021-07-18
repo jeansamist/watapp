@@ -9,6 +9,16 @@ import {CardWithoutFooter} from '../components/Cards.jsx';
 
 
 export default class DashboardView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      structure: this.props.match.params.structure
+    }
+
+  }
+  componentDidMount () {
+    alert(`Vous êtes dans la structure : ${this.state.structure}`)
+  }
   render() {
     return (
       <div className="view dashboard-view">

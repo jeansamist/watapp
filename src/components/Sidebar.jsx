@@ -42,12 +42,12 @@ export default class Sidebar extends Component {
     {
       name: "Dashboard",
       ico: <HouseDoorFill />,
-      href: "/"
+      href: "/watapp/dashboard"
     },
     {
       name: "Commerce",
       ico: <BagFill />,
-      href: "/shopping"
+      href: "/watapp/shopping"
     },
     {
       name: "Clients",

@@ -519,6 +519,10 @@ section {
   padding: 15px 20px;
 }
 
+.card > .card-image {
+  margin-bottom: 0.5em;
+}
+
 .card > .card-head > h1,
 .card > .card-head > .title {
   font-size: 25px;

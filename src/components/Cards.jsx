@@ -25,11 +25,33 @@ export class Card extends Component {
   }
 }
 
-export class SimpleCard extends Component {
+export class CardSimple extends Component {
   render() {
     return (
       <div className="card-simple">
         {this.props.children}
+      </div>
+    )
+  }
+}
+
+export class CardWithImage extends Component {
+  render() {
+    return (
+      <div className="card">
+        <div className="card-image">
+          <img src={this.props.imageSrc} alt="" />
+        </div>
+        <div className="card-content">
+          {this.props.children}
+        </div>
+        {
+          this.props.buttons !== undefined ? <div className="card-footer">
+          {this.props.buttons.map((button, k) => <>
+            {button.type === "link" ? <Button type={button.type} key={k} name={button.name} to={button.to} /> : <Button type={button.type} key={k} name={button.name} />}
+          </>)}
+          </div> : ""
+        }
       </div>
     )
   }
