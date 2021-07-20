@@ -18,9 +18,10 @@ import PageNotFound from '../Views/404.jsx';
 
 class App extends React.Component {
   render () {
+    console.log(this.props);
     return <Router>
       <div className="master">
-        <Sidebar k={0} />
+        <Sidebar k={0} structure={this.props.match.params.structure} />
         <Switch>
           <Route path="/" exact render={() => {
             return <Redirect to={"/structures"} />

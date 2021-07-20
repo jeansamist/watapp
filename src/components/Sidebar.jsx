@@ -38,36 +38,43 @@ class SidebarUser extends Component {
 }
 
 export default class Sidebar extends Component {
-  links = [
-    {
+  state = {links: [
+    
+  ]}
+  buildLinks () {
+    return this.state.links.map((link, k) => <SidebarLink k={k} key={k} href={link.href} ico={link.ico} name={link.name} />);
+  }
+  componentDidMount () {
+    this.setState({links : [{
       name: "Dashboard",
       ico: <HouseDoorFill />,
-      href: "/watapp/dashboard"
+      href: "/watapp/dashboard/" + this.props.structure
     },
     {
       name: "Commerce",
       ico: <BagFill />,
-      href: "/watapp/shopping"
+      href: "/watapp/shopping/" + this.props.structure
+    },
+    {
+      name: "Structures",
+      ico: <PeopleFill />,
+      href: "/watapp/structures/" + this.props.structure
     },
     {
       name: "Clients",
       ico: <PeopleFill />,
-      href: "#"
+      href: "/watapp/clients/" + this.props.structure
     },
     {
       name: "Parametres",
       ico: <GearFill />,
-      href: "#"
-    },
-  ]
-  buildLinks () {
-    return this.links.map((link, k) => <SidebarLink k={k} key={k} href={link.href} ico={link.ico} name={link.name} />);
+      href: "/watapp/options/" + this.props.structure
+    }]})
   }
-  componentDidMount () {
+  componentDidUpdate () {
     let keyOfWhoActived = this.props.k;
     let whoToActive = document.querySelector(".sidebar-link-key-" + keyOfWhoActived);
     whoToActive.classList.add('active');
-
   }
   render() {
     return (
