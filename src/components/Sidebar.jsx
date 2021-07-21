@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import applicationLogo from './../assets/images/app/logo/watapp-logo-svg.svg';
 import avatarDefault from './../assets/images/app/avatars/default.png';
-import { HouseDoorFill, BagFill, Building, PeopleFill, GearFill } from 'react-bootstrap-icons';
+import { HouseDoorFill, Box, BagFill, Building, PeopleFill, GearFill } from 'react-bootstrap-icons';
 import {
   Link
 } from "react-router-dom";
@@ -49,6 +49,11 @@ export default class Sidebar extends Component {
       name: "Dashboard",
       ico: <HouseDoorFill />,
       href: "/watapp/dashboard/" + this.props.structure
+    },
+    {
+      name: "Stock",
+      ico: <Box />,
+      href: "/watapp/stock/" + this.props.structure
     },
     {
       name: "Commerce",

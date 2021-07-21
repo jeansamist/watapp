@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BagFill, CurrencyEuro, PeopleFill } from 'react-bootstrap-icons';
-import StatCard from './StatCard';
+import StatCard from '../StatCard.jsx';
 
 export default class Stats extends Component {
   constructor(props) {
