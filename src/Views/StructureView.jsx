@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Loader from '../components/Loader.jsx';
 
-export default class PageNotFound extends Component {
+export default class StructureView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,13 +13,13 @@ export default class PageNotFound extends Component {
   componentDidMount () {
     setTimeout(() => {
       this.setState({ loading: true })
-    }, 3000);
+    }, 5000);
   }
   render() {
     if (this.state.loading) {
       return (
-        <div className="view pagenotfound-view">
-          <h1>Erreur 404</h1>
+        <div className="view structure-view">
+          <h1>Structure</h1>
         </div>
       )
     } else {

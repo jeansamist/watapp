@@ -12,8 +12,8 @@ import Sidebar from './../components/Sidebar.jsx'
 // Views
 import DashboardView from "./../Views/DashboardView.jsx";
 import ShoppingView from "./../Views/ShoppingView.jsx";
+import StructureView from "./../Views/StructureView.jsx";
 import ClientsView from "./../Views/ClientsView.jsx";
-// import SelectStructure from '../Views/SelectStructure.jsx';
 import PageNotFound from '../Views/404.jsx';
 
 class App extends React.Component {
@@ -28,6 +28,7 @@ class App extends React.Component {
           }} />
           <Route path="/watapp/dashboard/:structure" component={DashboardView} />
           <Route path="/watapp/shopping/:structure" component={ShoppingView} />
+          <Route path="/watapp/structures/:structure" component={StructureView} />
           <Route path="/watapp/clients/:structure" component={ClientsView} />
           <Route path="*" component={PageNotFound} />
         </Switch>
