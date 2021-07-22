@@ -36,7 +36,6 @@ class SidebarUser extends Component {
     )
   }
 }
-
 export default class Sidebar extends Component {
   state = {links: [
     
@@ -80,6 +79,17 @@ export default class Sidebar extends Component {
     let keyOfWhoActived = this.props.k;
     let whoToActive = document.querySelector(".sidebar-link-key-" + keyOfWhoActived);
     whoToActive.classList.add('active');
+    let sidebarLinks = document.querySelectorAll('.sidebar-link');
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // e.preventDefault();
+        let oldActived = document.querySelector('.sidebar-link.active');
+        if (oldActived.classList.contains("active")) {
+          oldActived.classList.remove('active')
+          link.classList.add('active')
+        }
+      })
+    })
   }
   render() {
     return (

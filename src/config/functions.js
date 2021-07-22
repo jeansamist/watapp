@@ -13,3 +13,35 @@ export const createKey = (lenght = 10) => {
   console.log(key);
   return key
 }
+
+/**
+ * 
+ * @param { String } modalId Id du modal dans le DOM
+ * @returns { Boolean }
+ */
+export const openModal = (modalId) => {
+  let modal = document.querySelector("#" + modalId);
+  console.log(modal);
+  if (!modal.classList.contains("active")) {
+    modal.classList.add('active')
+    return true
+  } else {
+    return false
+  }
+}
+
+/**
+ * 
+ * @param { String } modalId Id du modal dans le DOM
+ * @returns { Boolean }
+ */
+export const closeModal = (modalId) => {
+  let modal = document.querySelector("#" + modalId);
+  console.log(modal);
+  if (modal.classList.contains("active")) {
+    modal.classList.remove('active')
+    return true
+  } else {
+    return false
+  }
+}
