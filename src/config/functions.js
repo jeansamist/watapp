@@ -21,6 +21,12 @@ export const createKey = (lenght = 10) => {
  */
 export const openModal = (modalId) => {
   let modal = document.querySelector("#" + modalId);
+  let view = document.querySelector(".view");
+  let container = document.querySelector(".container-fluid");
+  if (view && container) {
+    view.style.overflowY = "hidden";
+    container.classList.add('blur')
+  }
   console.log(modal);
   if (!modal.classList.contains("active")) {
     modal.classList.add('active')
@@ -37,7 +43,13 @@ export const openModal = (modalId) => {
  */
 export const closeModal = (modalId) => {
   let modal = document.querySelector("#" + modalId);
-  console.log(modal);
+  // console.log(modalId);
+  let view = document.querySelector(".view");
+  let container = document.querySelector(".container-fluid");
+  if (view && container) {
+    view.style.overflowY = "auto";
+    container.classList.remove('blur')
+  }
   if (modal.classList.contains("active")) {
     modal.classList.remove('active')
     return true

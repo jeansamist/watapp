@@ -10,6 +10,7 @@ import { CardWithoutFooter } from '../components/Cards.jsx';
 import Table from '../components/Table.jsx';
 import { Button, ButtonOpenModal, ButtonCloseModal } from '../components/Forms/Buttons.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
+import { Modal } from '../components/Modals.jsx';
 
 export default class ShoppingView extends Component {
   constructor(props) {
@@ -61,10 +62,30 @@ export default class ShoppingView extends Component {
                   ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>]
                 ]} />
               </CardWithoutFooter>
+              
+              <CardWithoutFooter title="Ventes">
+                <Table thead={["ID", "Nom du client client", "Montant d'achat", "Actions"]} tbody={[
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>]
+                ]} />
+              </CardWithoutFooter>
+              <ButtonOpenModal name="Faire une ventes" modalId="modal-sell" />
+              <CardWithoutFooter title="Ventes">
+                <Table thead={["ID", "Nom du client client", "Montant d'achat", "Actions"]} tbody={[
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
+                  ["1", "Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>]
+                ]} />
+              </CardWithoutFooter>
             </section>
-            <div className="modals">
-              <div id="modal-sell"></div>
-            </div>
+          </div>
+          <div className="modals">
+            <Modal title="Faire une vente" id="modal-sell">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae soluta pariatur provident, veniam iure qui libero animi officiis, quis hic quaerat ad a aut, repellat natus rem in? Nesciunt, officiis.
+            </Modal>
           </div>
         </div>
       )

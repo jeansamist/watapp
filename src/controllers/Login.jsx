@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { Redirect, Link } from 'react-router-dom'
 import { CardBoxForm } from '../components/Cards'
-import { ButtonReloaderLink } from '../components/Forms/Buttons'
+import { Button, ButtonReloaderLink } from '../components/Forms/Buttons'
 import Field from '../components/Forms/Field'
 
 
@@ -50,12 +50,7 @@ export default class Login extends Component {
     if (!this.state.login) {
       return (
         <div className="login-view login">
-          <CardBoxForm title="Login" callback={this.handdleSubmit.bind(this)} buttons={[
-            {
-              type: "submit",
-              name: "Login"
-            }
-          ]}>
+          <CardBoxForm title="Login" callback={this.handdleSubmit.bind(this)} buttons={[<Button type="submit" name="Se connecter" />]}>
             <Field label="Pseudo" type="text" />
             <Field label="Mot de passe" type="password" />
           </CardBoxForm>

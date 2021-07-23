@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Form from './Forms/Form'
-import { Button } from '../components/Forms/Buttons.jsx'
+// import { Button } from '../components/Forms/Buttons.jsx'
 
 export class Card extends Component {
   render() {
@@ -14,10 +14,8 @@ export class Card extends Component {
         </div>
         {
           this.props.buttons !== undefined ? <div className="card-footer">
-          {this.props.buttons.map((button, k) => <>
-            {button.type === "link" ? <Button type={button.type} key={k} name={button.name} to={button.to} /> : <Button type={button.type} key={k} name={button.name} />}
-          </>)}
-        </div> : ""
+            {this.props.buttons}
+          </div> : ""
         }
         
       </div>
@@ -47,9 +45,7 @@ export class CardWithImage extends Component {
         </div>
         {
           this.props.buttons !== undefined ? <div className="card-footer">
-          {this.props.buttons.map((button, k) => <>
-            {button.type === "link" ? <Button type={button.type} key={k} name={button.name} to={button.to} /> : <Button type={button.type} key={k} name={button.name} />}
-          </>)}
+            {this.props.buttons}
           </div> : ""
         }
       </div>
@@ -79,7 +75,7 @@ export class CardBoxForm extends Component {
             {this.props.children}
           </div>
           <div className="card-footer">
-            {this.props.buttons.map((button, k) => <Button key={k} type={button.type} name={button.name} />)}
+            {this.props.buttons}
           </div>
         </Form>
       </div>
