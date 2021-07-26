@@ -26,8 +26,8 @@ export default class Stats extends Component {
   
   render() {
     return (
-      <div className="stats col-md-12 row">
-        {this.state.data.map((stat, k) => <div key={k} className="col-md-6"><StatCard name={stat.name} ico={stat.ico} newData={stat.newData} oldData={stat.oldData} /></div>)}
+      <div className="stats col-md-6 row">
+        {this.state.data.map((stat, k) => <div key={k} className="col-md-12"><StatCard name={stat.name} ico={stat.ico} newData={stat.newData} oldData={stat.oldData} /></div>)}
       </div>
     )
     

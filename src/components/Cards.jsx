@@ -8,6 +8,7 @@ export class Card extends Component {
       <div className="card">
         <div className="card-head">
           <h1>{this.props.title}</h1>
+          {this.props.tools ? <div className="card-tools">{this.props.tools}</div> : ""}
         </div>
         <div className="card-content">
           {this.props.children}
@@ -56,7 +57,7 @@ export class CardWithImage extends Component {
 export class CardWithoutFooter extends Component {
   render() {
     return (
-      <Card title={this.props.title}>
+      <Card title={this.props.title} tools={this.props.tools ? this.props.tools : ""}>
         {this.props.children}
       </Card>
     )

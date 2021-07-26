@@ -59,8 +59,8 @@ a {
   display: inline-block;
 }
 
-.field {
-  min-width: 250px;
+.field, .select {
+  /* min-width: 100px; */
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -96,6 +96,9 @@ a {
   border-color: var(--primary);
 }
 
+.select .css-yk16xz-control {
+  border-color: var(--border);
+}
 
 .field > .label {
   width: 100%;
@@ -436,6 +439,8 @@ section {
   border-radius: 5px;
   border: 1px solid var(--border);
   overflow: hidden;
+  overflow-y: auto;
+  padding-bottom: calc(57px + 0.5em);
 }
 
 .card-simple {
@@ -470,7 +475,17 @@ section {
 
 .card > .card-head > h1,
 .card > .card-head > .title {
+  min-width: 200px;
+  overflow: hidden;
+  width: 50%;
   font-size: 25px;
+}
+
+.card > .card-head > .card-tools {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .card .card-content {
@@ -480,6 +495,10 @@ section {
 }
 
 .card .card-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -488,6 +507,10 @@ section {
   background: var(--card-footer);
   /* margin-top: 1em; */
   padding: 10px 20px;
+}
+
+.card .card-footer > * {
+  margin-left: 10px;
 }
 
 table {
@@ -513,7 +536,7 @@ table > tbody > tr {
   width: 100%;
   transition: background 0.2s ease, color 0.2s ease;
   border-top: 1px solid var(--border-light);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 table > tbody > tr:nth-child(even) {
@@ -524,6 +547,18 @@ table > tbody > tr:hover{
   background-color: var(--card-footer);
   color: var(--primary);
   box-shadow: 0px 1px 4px var(--shadow);
+}
+
+table > tbody > tr.tbl-modal {
+  position: relative;
+}
+
+table > tbody > tr.tbl-modal .faker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 th:first-child,
@@ -553,10 +588,9 @@ td:first-child {
   justify-content: space-between;
   align-items: center;
   border: 1px solid var(--border);
-  border-top: none;
   box-shadow: 0 1px 4px var(--shadow);
   padding: 15px 30px;
-  border-radius: 0 0 10px 10px;
+  border-radius: 20px;
 }
 
 .title-tools-bar > .title {
@@ -591,6 +625,12 @@ td:first-child {
   transform: translateY(0px);
   max-width: 600px;
   width: 98%;
+  max-height: 430px;
+  height: 90vh;
+}
+
+.modal-bg.active > .modal-box > div {
+  height: 100%;
 }
 .blur {
   filter: blur(10px);

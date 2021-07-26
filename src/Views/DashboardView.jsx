@@ -4,10 +4,10 @@ import { HouseDoorFill } from "react-bootstrap-icons";
 // Components
 import Topbar from "./../components/Topbar.jsx";
 import Stats from '../components/Dashboard/Stats.jsx';
-import Jumbotron from '../components/Dashboard/Jumbotron.jsx';
+import { ChartBar } from '../components/Chart.jsx';
 import { Button } from '../components/Forms/Buttons'
-import Table from '../components/Table.jsx';
-import {CardWithoutFooter} from '../components/Cards.jsx';
+import {Table} from '../components/Tables.jsx';
+import {CardWithoutFooter, CardSimple} from '../components/Cards.jsx';
 import Loader from '../components/Loader.jsx';
 
 export default class DashboardView extends Component {
@@ -22,7 +22,7 @@ export default class DashboardView extends Component {
   componentDidMount () {
     setTimeout(() => {
       this.setState({ loading: true })
-    }, 5000);
+    }, 1000);
   }
   render() {
     if (this.state.loading) {
@@ -32,12 +32,26 @@ export default class DashboardView extends Component {
           <div className="container-fluid">
             <section className="first-section">
               <div className="row">
-                <div className="col-md-5">
-                  <Jumbotron>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis voluptas porro magnam molestiae illo expedita consectetur excepturi provident voluptatum nesciunt illum soluta molestias corrupti, deserunt officia optio ducimus veritatis dolores?
-                  </Jumbotron>
-                </div>
                 <Stats />
+              </div>
+            </section>
+            <section className="first-section">
+              <div className="row">
+                  <div className="col-md-4">
+                    <CardSimple>
+                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                    </CardSimple>
+                  </div>
+                  <div className="col-md-4">
+                    <CardSimple>
+                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                    </CardSimple>
+                  </div>
+                  <div className="col-md-4">
+                    <CardSimple>
+                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                    </CardSimple>
+                  </div>
               </div>
             </section>
             <section>

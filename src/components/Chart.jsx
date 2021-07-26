@@ -58,3 +58,11 @@ export class ChartLine extends React.Component {
     )
   }
 }
+
+export class ChartBar extends React.Component {
+  render() {
+    return (
+      <Chart type="bar" data={this.props.data} />
+    )
+  }
+}
