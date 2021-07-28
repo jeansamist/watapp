@@ -15,6 +15,7 @@ import ShoppingView from "./../Views/ShoppingView.jsx";
 import StructureView from "./../Views/StructureView.jsx";
 import ClientsView from "./../Views/ClientsView.jsx";
 import PageNotFound from '../Views/404.jsx';
+import StockView from '../Views/StockView.jsx';
 
 class App extends React.Component {
   render () {
@@ -27,6 +28,7 @@ class App extends React.Component {
             return <Redirect to={"/structures"} />
           }} />
           <Route path="/watapp/dashboard/:structure" component={DashboardView} />
+          <Route path="/watapp/stock/:structure" component={StockView} />
           <Route path="/watapp/shopping/:structure" component={ShoppingView} />
           <Route path="/watapp/structures/:structure" component={StructureView} />
           <Route path="/watapp/clients/:structure" component={ClientsView} />

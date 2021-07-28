@@ -98,6 +98,7 @@ a {
 
 .select .css-yk16xz-control {
   border-color: var(--border);
+  box-shadow: none;
 }
 
 .field > .label {
@@ -635,6 +636,19 @@ td:first-child {
 .blur {
   filter: blur(10px);
 }
+
+.jumbotron {
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.stock-stats {
+  margin-top: 1.5em !important;
+}
+
 @media only screen and (max-width: 630px) {
   .sidebar {
     width: var(--sidebar-width-1);
