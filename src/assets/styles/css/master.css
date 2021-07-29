@@ -201,6 +201,10 @@ a {
   background: var(--border);
 }
 
+.mt {
+  margin-top: 1.5em;
+}
+
 .sidebar > .sidebar-brand > .sidebar-brand-logo {
   width: 30px;
 }
