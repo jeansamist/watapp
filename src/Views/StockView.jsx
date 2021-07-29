@@ -143,7 +143,7 @@ export default class StockView extends Component {
               </div>
             </section>
             <section>
-              <TitleToolsBar title="Stock Plein">
+              <TitleToolsBar title="Inventaire des Stock récents">
                 <ButtonOpenModal name="Incrément un stock" modalId="modal-stock-increment" />
                 <ButtonOpenModal name="Créer un stock" modalId="modal-stock-create" />
               </TitleToolsBar>

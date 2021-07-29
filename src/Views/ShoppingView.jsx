@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { BagFill } from "react-bootstrap-icons";
 
 // Components
-
 import Loader from '../components/Loader.jsx';
 import Topbar from "./../components/Topbar.jsx";
 import ShoppingStats from '../components/Shopping/ShoppingStats.jsx';
@@ -12,12 +11,10 @@ import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import { CardWithoutFooter } from '../components/Cards.jsx';
 import { ChartLine } from '../components/Chart.jsx';
-import {TableOpenModal} from '../components/Tables.jsx';
-import { Button, ButtonOpenModal, ButtonCloseModal } from '../components/Forms/Buttons.jsx';
+import { TableOpenModal } from '../components/Tables.jsx';
+import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import { Modal, ModalForm } from '../components/Modals.jsx';
-import { createKey } from '../config/functions.js';
-// import { SelectSearch } from '../components/Forms/Selects.jsx';
-
+import { createKey, random } from '../config/functions.js';
 
 export default class ShoppingView extends Component {
   constructor(props) {
@@ -27,6 +24,10 @@ export default class ShoppingView extends Component {
       structure: this.props.match.params.structure,
       productsToSell: [],
       articles: [],
+      /*
+        Liste des éléments di tablau
+        A modifier lors de l'élaboration du backend
+      */
       tableSells: {
         tableTitle: createKey(),
         thead: ['ghj', "ghjkl", "fghjk"],
@@ -79,6 +80,10 @@ export default class ShoppingView extends Component {
   }
 
 
+  /**
+   * Donnée du modal voir une vente
+   * A modifier lors de l'élaboration du backend
+   */
   modalData() {
     let sellToView = this.state.sellToView
       if (sellToView !== "") {
@@ -88,12 +93,22 @@ export default class ShoppingView extends Component {
     }
   }
 
+
+  /**
+   * Modal voir une vente
+   * A modifier lors de l'élaboration du backend
+   */
   ModalViewSell () {
     return <Modal title="Faire une vente" id="modal-view-sell">
       {this.modalData()}
     </Modal>
   }
 
+
+  /**
+   * Modal faire une vente
+   * A modifier lors de l'élaboration du backend
+   */
   ModalDoSell() {
     const selectProductshandleChange = (newValue) => {
       this.setState({
@@ -110,7 +125,6 @@ export default class ShoppingView extends Component {
       })
     }
     return <ModalForm title="Faire une vente" id="modal-sell" onSubmit={this.doSell} buttons={[<Button type="submit" name="Vendre" />]}>
-      {/* <SelectSearch /> */}
       <div className="row">
         <div className="field col-md-6 col-12">
           <div className="label">Selectioner le client</div>
@@ -151,6 +165,11 @@ export default class ShoppingView extends Component {
       </div>
     </ModalForm>
   }
+
+  /**
+   * Fonction appelé lors de la création d'une vente
+   * A modifier lors de l'élaboration du backend
+   */
   doSell () {
     console.log("Sell");
   }
@@ -164,26 +183,35 @@ export default class ShoppingView extends Component {
               <div className="row">
                 <div className="col-md-6">
                     <CardWithoutFooter title={this.state.structure}>
-                      <ChartLine data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                      <ChartLine
+                        data={{
+                          title: "Ventes depuis le début de la semaine",
+                          labels: [
+                            "Lundi",
+                            "Mardi",
+                            "Mercredi",
+                            "< Jeudi >",
+                            "Vendredi",
+                            "Samedi",
+                            'Dimanche'
+                          ],
+                          data: [random(99),random(99),random(99),random(99),random(99),random(99),random(99)]
+                        }}
+                      />
                     </CardWithoutFooter>
                   </div>
                 <ShoppingStats />
               </div>
             </section>
             <section>
-              <TitleToolsBar title="Sortir depuis">
-                <ButtonCloseModal name="fermer" modalId="modal-sell" />
+              <TitleToolsBar title="Inventaire des Stock récents">
+                <this.Tools />
               </TitleToolsBar>
-              <CardWithoutFooter title="Ventes" tools={<this.Tools />}>
-                <TableOpenModal modalId="modal-view-sell" onClick={this.handdleTableViewSellClick.bind(this)} tdata={this.state.tableSells}/>
-                {/* <TableOpenModal modalId="modal-view-sell" thead={["Nom du client client", "Montant d'achat", "Actions"]} tbody={[
-                  ["Mr. Bruxell Amide", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
-                  ["Mr. Larouse Martini", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
-                  ["Mr. Angello Dubois", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>],
-                  ["Mr. Anaël Flore", Math.round(Math.random() * 1000), <Button type="submit" name="Check"/>]
-                ]} /> */}
-
-              </CardWithoutFooter>
+              <TableOpenModal
+                modalId="modal-view-sell"
+                onClick={this.handdleTableViewSellClick.bind(this)}
+                tdata={this.state.tableSells}
+              />
             </section>
           </div>
           <div className="modals">
@@ -199,16 +227,3 @@ export default class ShoppingView extends Component {
     }
   }
 }
-/*
-
-Vente:
-  nom du client
-  argent
-  ..;
-Response
-  data => [
-    Vente(Dupond, 2000)
-  ],
-  message: 
-
-*/

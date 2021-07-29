@@ -31,7 +31,7 @@ export default class SelectStructure extends Component {
   
   build () {
     return this.state.sctructures.map((sctructure, k) => {
-      return <div className="col-sm-4 mb-4" key={k}>
+      return <div className="s col-sm-4 mb-4" key={k}>
         <CardWithImage imageSrc={sctructure.image} buttons={[<Button type="link" to={"/watapp/dashboard/" + sctructure.link} name="Entrer dans la struture" />]}>
           <h1>{sctructure.name}</h1>
         </CardWithImage>
@@ -40,7 +40,7 @@ export default class SelectStructure extends Component {
   }
   render() {
     return (
-      <div className="login-view">
+      <div className="structures-view">
         <div className="container-fluid">
           <div className="row">
             {this.build()}

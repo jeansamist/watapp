@@ -74,6 +74,10 @@ export default class Sidebar extends Component {
       ico: <GearFill />,
       href: "/watapp/options/" + this.props.structure
     }]})
+    let sidebar = document.querySelector('.sidebar')
+    let toggler = sidebar.querySelector('.toggler')
+    toggler.addEventListener('click', () => sidebar.classList.toggle('active'))
+    
   }
   componentDidUpdate () {
     let keyOfWhoActived = this.props.k;
@@ -85,6 +89,8 @@ export default class Sidebar extends Component {
         // e.preventDefault();
         let oldActived = document.querySelector('.sidebar-link.active');
         if (oldActived.classList.contains("active")) {
+          let sidebar = document.querySelector('.sidebar')
+          sidebar.classList.remove('active')
           oldActived.classList.remove('active')
           link.classList.add('active')
         }
@@ -94,6 +100,7 @@ export default class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
+        <div className="toggler"></div>
         <div className="sidebar-brand">
           <img src={applicationLogo} alt="application logo" className="sidebar-brand-logo" />
           {/* <span className="sidebar-brand-menu-btn"><ArrowLeftCircleFill /></span> */}

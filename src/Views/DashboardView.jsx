@@ -9,6 +9,7 @@ import { Button } from '../components/Forms/Buttons'
 import {Table} from '../components/Tables.jsx';
 import {CardWithoutFooter, CardSimple} from '../components/Cards.jsx';
 import Loader from '../components/Loader.jsx';
+import { random } from '../config/functions.js';
 
 export default class DashboardView extends Component {
   constructor(props) {
@@ -37,19 +38,14 @@ export default class DashboardView extends Component {
             </section>
             <section className="first-section">
               <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-6 col-sm-12">
                     <CardSimple>
-                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [random(99),random(99),random(99),random(99),random(99),random(99),random(99),]}} />
                     </CardSimple>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6 col-sm-12">
                     <CardSimple>
-                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
-                    </CardSimple>
-                  </div>
-                  <div className="col-md-4">
-                    <CardSimple>
-                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [78, 93, 66, 75]}} />
+                      <ChartBar data={{title: "Ventes depuis le début de la semaine", labels: ["Lundi", "Mardi", "Mercredi", "< Jeudi >", "Vendredi", "Samedi", 'Dimanche'], data: [random(99),random(99),random(99),random(99),random(99),random(99),random(99),]}} />
                     </CardSimple>
                   </div>
               </div>

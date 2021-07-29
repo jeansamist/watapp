@@ -57,3 +57,10 @@ export const closeModal = (modalId) => {
     return false
   }
 }
+
+/**
+ * Un nombre au hasard
+ * @param { Number } max Valeur maximale qui peut être retourner
+ * @returns { Number }
+ */
+export const random = (max = 10) => Math.round(Math.random() * max)

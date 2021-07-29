@@ -2,21 +2,15 @@ import React, { Component } from 'react'
 import { PeopleFill } from "react-bootstrap-icons";
 
 // Components
-
 import Loader from '../components/Loader.jsx';
 import Topbar from "./../components/Topbar.jsx";
 import Field from '../components/Forms/Field.jsx';
-import CreatableSelect from 'react-select/creatable';
-import Select from 'react-select';
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import { Modal, ModalForm } from '../components/Modals.jsx';
 import { createKey } from '../config/functions.js';
 import ClientsStats from '../components/Clients/ClientsStats.jsx';
-// import TitleToolsBar from '../components/TitleToolsBar.jsx';
-// import { CardWithoutFooter } from '../components/Cards.jsx';
-// import { ChartLine } from '../components/Chart.jsx';
-// import {TableOpenModal} from '../components/Tables.jsx';
-// import { SelectSearch } from '../components/Forms/Selects.jsx';
+import TitleToolsBar from '../components/TitleToolsBar.jsx';
+import { TableOpenModal } from '../components/Tables.jsx';
 
 
 export default class ShoppingView extends Component {
@@ -27,6 +21,10 @@ export default class ShoppingView extends Component {
       structure: this.props.match.params.structure,
       productsToclient: [],
       articles: [],
+      /*
+        Liste des éléments di tablau
+        A modifier lors de l'élaboration du backend
+      */
       tableclients: {
         tableTitle: createKey(),
         thead: ['ghj', "ghjkl", "fghjk"],
@@ -68,7 +66,7 @@ export default class ShoppingView extends Component {
 
   Tools () {
     return <>
-      <ButtonOpenModal name="Faire une ventes" modalId="modal-client" />
+      <ButtonOpenModal name="Créer un client" modalId="modal-client" />
     </>
   }
   
@@ -79,6 +77,10 @@ export default class ShoppingView extends Component {
   }
 
 
+  /**
+   * Donnée du modal voir un client
+   * A modifier lors de l'élaboration du backend
+   */
   modalData() {
     let clientToView = this.state.clientToView
       if (clientToView !== "") {
@@ -88,72 +90,38 @@ export default class ShoppingView extends Component {
     }
   }
 
+
+  
+  /**
+   * Modal pour voir un client
+   * A modifier lors de l'élaboration du backend
+   */
   ModalViewclient () {
-    return <Modal title="Faire une vente" id="modal-view-client">
+    return <Modal title="Voir un client" id="modal-view-client">
       {this.modalData()}
     </Modal>
   }
 
-  ModalDoclient() {
-    const selectProductshandleChange = (newValue) => {
-      this.setState({
-        productsToclient: newValue,
-        articles: newValue.map((val, k) => {
-          let obj = {articleId: val.value, articleQty: 0, articlePrice: val.price}
-          return obj;
-        }),
-      })
-    }
-    const selectClientshandleChange = (newValue) => {
-      this.setState({
-        clientId: newValue.value
-      })
-    }
-    return <ModalForm title="Faire une vente" id="modal-client" onSubmit={this.doclient} buttons={[<Button type="submit" name="Vendre" />]}>
-      {/* <SelectSearch /> */}
-      <div className="row">
-        <div className="field col-md-6 col-12">
-          <div className="label">Selectioner le client</div>
-          <Select
-            className="select"
-            onChange={selectClientshandleChange}
-            name="colors"
-            options={[
-              { value: 'chocolate', label: 'Chocolate', price: 200 },
-              { value: 'strawberry', label: 'Strawberry', price: 200 },
-              { value: 'vanilla', label: 'Vanilla', price: 200 }
-            ]}
-          />
-        </div>
-        <div className="field col-md-6 col-12">
-          <div className="label">Selctioner des produits</div>
-          <CreatableSelect
-            isClearable
-            isMulti
-            className="select"
-            onChange={selectProductshandleChange}
-            name="colors"
-            options={[
-              { value: 'chocolate', label: 'Chocolate', price: 200 },
-              { value: 'strawberry', label: 'Strawberry', price: 200 },
-              { value: 'vanilla', label: 'Vanilla', price: 200 }
-            ]}
-          />
-        </div>
-      </div>
-      <div className="row">
-        {this.state.productsToclient.map((product, k) => {
 
-          return <div className="col-xl-6 col-12">
-            <Field type="number" label={"Quantité de " + product.label} />
-          </div>
-        })}
-      </div>
+  /**
+   * Modal pour créer un client
+   * A modifier lors de l'élaboration du backend
+   */
+  ModalDoclient() {
+    return <ModalForm title="Créer un client" id="modal-client" onSubmit={this.doclient} buttons={[<Button type="submit" name="Créer" />]}>
+      <Field type="text" label="Nom du client" />
     </ModalForm>
   }
+
+  
+  /**
+   * Fonction appelé lors de la création d'un client
+   * A modifier lors de l'élaboration du backend
+   */
   doclient () {
     console.log("client");
   }
+
   render() {
     if (this.state.loading) {
       return (
@@ -162,6 +130,16 @@ export default class ShoppingView extends Component {
           <div className="container-fluid">
             <section className="first-section">
               <ClientsStats />
+            </section>
+            <section>
+              <TitleToolsBar title="Liste des clients">
+                <this.Tools />
+              </TitleToolsBar>
+              <TableOpenModal
+                modalId="modal-view-client"
+                onClick={this.handdleTableViewclientClick.bind(this)}
+                tdata={this.state.tableclients}
+              />
             </section>
           </div>
           <div className="modals">
