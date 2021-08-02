@@ -4,8 +4,7 @@
   Autoloader::register();
   if (isset($_COOKIE["watapp_user"])) {
     $cookie_data = $_COOKIE['watapp_user'];
-    Cookie::verifyCookie($cookie_data);
-    $request_data = true;
+    $request_data = Cookie::verifyCookie($cookie_data);
   } else {
     $request_data = false;
   }
