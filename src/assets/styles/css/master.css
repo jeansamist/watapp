@@ -795,3 +795,10 @@ td:first-child {
   top: 0;
   left: calc(0px) !important;
 }
+
+.error {
+  padding: 0.5em 1em;
+  background: var(--primary-opact);
+  color: var(--red);
+  font-weight: bold;
+}

@@ -4,7 +4,7 @@ import App from './App.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Login from './Login.jsx';
 import SelectStructure from '../Views/SelectStructure.jsx';
-
+import * as Config from "./../config/Variables";
 
 class GoToStructure extends Component {
   render() {
@@ -25,27 +25,17 @@ export default class Protection extends Component {
   }
   
   componentDidMount () {
-    let response;
     try {
-      response = {
-        data: {
-          isLogin: localStorage.getItem('isLogin')
-        }
-      }
+      fetch(`${Config.server}services/user_is_connected.php`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        this.setState({isLogin: result.response_data, isLoading: true})
+      })
     } catch (error) {
-      response = {
-        data: {
-          isLogin: false
-        }
-      }
+      this.setState({isLogin: false })
     }
-    setTimeout(() => {
-      if (response.data.isLogin) {
-        this.setState({isLogin: true, isLoading: true});
-      } else {
-        this.setState({isLogin: false, isLoading: true});
-      }
-    }, 3000);
   }
   
   render() {

@@ -1,3 +1,4 @@
+import * as Config from "./Variables"
 /**
  * Créer une clé aléatoirement
  * @param { Number } lenght Nombres de caractères de la clé
@@ -64,3 +65,17 @@ export const closeModal = (modalId) => {
  * @returns { Number }
  */
 export const random = (max = 10) => Math.round(Math.random() * max)
+
+/**
+ * Verifie si l'utilisateur est connecté
+ * @returns { Boolean }
+ */
+export const isConnected = () => {
+  fetch(`${Config.server}services/user_is_connected.php`)
+  .then((response) => {
+    return response.json();
+  })
+  .then((result) => {
+    return result.response_data
+  })
+}

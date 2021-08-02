@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { CardBoxForm } from '../components/Cards'
 import { Button, ButtonReloaderLink } from '../components/Forms/Buttons'
 import Field from '../components/Forms/Field'
-
+import * as Config from "./../config/Variables"
 
 
 export default class Login extends Component {
@@ -12,7 +12,8 @@ export default class Login extends Component {
   
     this.state = {
       alert: null,
-      login: false
+      login: false,
+      err: false
     }
   }
 
@@ -34,7 +35,7 @@ export default class Login extends Component {
     inputs.forEach(input => {
       let value = input.value;
       if (value !== "") {
-        toShare.push({key: input.getAttribute("name"), value: value})
+        toShare.push(`${input.getAttribute("name").toLowerCase().replace(",", "").replace(",", "")}=${value}`)
       } else {
         toShare = [];
         this.setState({alert: {type: "danger", msg: "Veiller completer tous les champs", other: ""}})
@@ -42,7 +43,29 @@ export default class Login extends Component {
       }
     })
     if (!error) {
-      this.setState({login: true})
+      fetch(`${Config.server}services/connect_user.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `${toShare[0]}&${toShare[1]}`
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        if (!result.response_data) {
+          this.setState({ err: result.response_message });
+        } else {
+          fetch(`${Config.server}services/user_is_connected.php`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            this.setState({ login: result.response_data })
+          })
+        }
+      })
     }
     // <Redirect exact from="/login" to={{pathname: "../"}} />
   }
@@ -53,6 +76,9 @@ export default class Login extends Component {
           <CardBoxForm title="Login" callback={this.handdleSubmit.bind(this)} buttons={[<Button type="submit" name="Se connecter" />]}>
             <Field label="Pseudo" type="text" />
             <Field label="Mot de passe" type="password" />
+            {
+              this.state.err ? <div className="error">{this.state.err}</div> : ""
+            }
           </CardBoxForm>
         </div>
       )
