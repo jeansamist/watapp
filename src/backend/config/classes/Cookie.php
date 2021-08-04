@@ -6,23 +6,27 @@
     public $cookie_name;
     public $expire_time;
 
-    public static function createCookie(String $cookie_name, String $cookie_value, Int $exist_time):Bool {
+    public static function createCookie(String $cookie_name, String $cookie_value, Int $exist_time, String $type = "cookie") {
       global $pdo;
-      $token = Random::random_string(30);
+      define('TOKEN', Random::random_string(50));
       $expire_time = time() + (86400 * $exist_time);
       $insertCookieReq = $pdo->prepare('INSERT INTO cookies (cookie_value, cookie_name, expire_time, token) VALUE (?, ?, ?, ?)');
       $insertCookieReq->execute([
         $cookie_value,
         $cookie_name,
         $expire_time,
-        $token
+        TOKEN
       ]);
       
-      if ($insertCookieReq !== false) {
-        setcookie("cookie_name", $token, time() + (86400 * $exist_time), "/");
-        return true;
+      if ($type == "cookie") {
+        if ($insertCookieReq !== false) {
+          setcookie($cookie_name, TOKEN, time() + (86400 * $exist_time), "/");
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return TOKEN;
       }
     }
 
@@ -32,9 +36,8 @@
       $reqCookie->execute([$cookie_data]);
       if ($reqCookie->rowCount() == 1) {
         $nowTime = time();
-        var_dump($reqCookie);
         $expire_time = $reqCookie->fetch();
-        if ($nowTime < $expire_time) {
+        if ($nowTime < (int) $expire_time->expire_time) {
           return true;
         } else {
           return false;

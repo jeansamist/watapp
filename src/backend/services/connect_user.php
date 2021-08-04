@@ -22,9 +22,12 @@
         $user = $verifyReq->fetch();
         $userPassword = $user->password;
         if ($password == $userPassword) {
-          $cookieHasCreated = Cookie::createCookie("watapp_user", $user->id, 30);
+          $cookieHasCreated = Cookie::createCookie("watapp_user", $user->id, 1, 'localstorage');
           if ($cookieHasCreated) {
-            $toReturn = new ReqResponse(true, "User's connected");
+            $toReturn = new ReqResponse([
+              "isLogin" => true,
+              "token" => $cookieHasCreated
+            ], "User's connected");
           } else {
             $toReturn = new ReqResponse(false, "Erreur interne du serveur");
           }

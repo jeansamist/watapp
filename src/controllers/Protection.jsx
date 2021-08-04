@@ -26,15 +26,21 @@ export default class Protection extends Component {
   
   componentDidMount () {
     try {
-      fetch(`${Config.server}services/user_is_connected.php`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        this.setState({isLogin: result.response_data, isLoading: true})
-      })
+      let watapp_user = localStorage.getItem("watapp_user");
+      if (watapp_user !== null) {
+        fetch(`${Config.server}services/user_is_connected.php?watappuser=${watapp_user}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          this.setState({isLogin: result.response_data, isLoading: true})
+        })
+      } else {
+        this.setState({isLogin: false, isLoading: true })
+      }
+      
     } catch (error) {
-      this.setState({isLogin: false })
+      this.setState({isLogin: false, isLoading: true })
     }
   }
   

@@ -1,9 +1,10 @@
 <?php
   require "../config/headers.php";
+  require "../config/bd.php";
   require "../config/classes/Autoloader.php";
   Autoloader::register();
-  if (isset($_COOKIE["watapp_user"])) {
-    $cookie_data = $_COOKIE['watapp_user'];
+  if (isset($_GET["watappuser"])) {
+    $cookie_data = $_GET['watappuser'];
     $request_data = Cookie::verifyCookie($cookie_data);
   } else {
     $request_data = false;
