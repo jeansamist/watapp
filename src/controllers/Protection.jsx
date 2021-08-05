@@ -28,7 +28,7 @@ export default class Protection extends Component {
     try {
       let watapp_user = localStorage.getItem("watapp_user");
       if (watapp_user !== null) {
-        fetch(`${Config.server}services/user_is_connected.php?watappuser=${watapp_user}`)
+        fetch(`${Config.server}services/user_is_connected.php?watapp_user=${watapp_user}`)
         .then((response) => {
           return response.json();
         })
@@ -52,9 +52,9 @@ export default class Protection extends Component {
             <Login isLogin={this.state.isLogin} />
           </Route>
           {console.log("isLogin", this.state.isLogin)}
-          <ProtectedRoute path="/structures" isLogin={this.state.isLogin} component={SelectStructure} />
-          <ProtectedRoute path="/watapp/*/:structure" isLogin={this.state.isLogin} component={App} redirectUrl="../login" />
-          <ProtectedRoute path="/" isLogin={this.state.isLogin} component={GoToStructure} />
+          <ProtectedRoute k={0} path="/structures" isLogin={this.state.isLogin} component={SelectStructure} />
+          <ProtectedRoute k={1} path="/watapp/*/:structure" isLogin={this.state.isLogin} component={App} redirectUrl="../login" />
+          <ProtectedRoute k={2} path="/" isLogin={this.state.isLogin} component={GoToStructure} />
         </Router>
       )
     } else {

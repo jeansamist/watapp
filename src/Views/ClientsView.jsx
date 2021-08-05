@@ -11,7 +11,7 @@ import { createKey } from '../config/functions.js';
 import ClientsStats from '../components/Clients/ClientsStats.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
 import { TableOpenModal } from '../components/Tables.jsx';
-
+// import * as Config from "./../config/Variables"
 
 export default class ShoppingView extends Component {
   constructor(props) {
@@ -19,8 +19,6 @@ export default class ShoppingView extends Component {
     this.state = {
       loading: false,
       structure: this.props.match.params.structure,
-      productsToclient: [],
-      articles: [],
       /*
         Liste des éléments du tableau
         A modifier lors de l'élaboration du backend
@@ -61,7 +59,6 @@ export default class ShoppingView extends Component {
   }
 
   componentDidUpdate () {
-    console.log("Component's Update", this.state);
   }
 
   Tools () {
