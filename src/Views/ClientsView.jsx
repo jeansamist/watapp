@@ -22,7 +22,7 @@ export default class ShoppingView extends Component {
       productsToclient: [],
       articles: [],
       /*
-        Liste des éléments di tablau
+        Liste des éléments du tableau
         A modifier lors de l'élaboration du backend
       */
       tableclients: {
