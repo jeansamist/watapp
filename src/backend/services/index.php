@@ -9,10 +9,9 @@
 </head>
 
 <body>
-    <form method="POST" action="add-client.php">
+    <form method="POST" action="add-structure.php">
         <input type="text" name="name" placeholder="nom">
-        <input type="text" name="lastname" placeholder="prenom">
-        <input type="text" name="sex" placeholder="sexe">
+        <!-- <input type="text" name="generetedid"> -->
 
         <input type="submit" name="submit">
     </form>
