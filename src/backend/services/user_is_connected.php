@@ -1,4 +1,5 @@
 <?php
+  // Comment for crash changes
   require "../config/headers.php";
   require "../config/bd.php";
   require "../config/classes/Autoloader.php";
