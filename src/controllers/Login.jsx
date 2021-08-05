@@ -51,19 +51,15 @@ export default class Login extends Component {
         body: `${toShare[0]}&${toShare[1]}`
       })
       .then((response) => {
+        console.log(response);
         return response.json();
       })
       .then((result) => {
-        if (!result.response_data) {
+        if (!result.response_data.isLogin) {
           this.setState({ err: result.response_message });
         } else {
-          fetch(`${Config.server}services/user_is_connected.php`)
-          .then((response) => {
-            return response.json();
-          })
-          .then((result) => {
-            this.setState({ login: result.response_data })
-          })
+          localStorage.setItem("watapp_user", result.response_data.token)
+          this.setState({login: true});
         }
       })
     }

@@ -22,7 +22,15 @@
         $user = $verifyReq->fetch();
         $userPassword = $user->password;
         if ($password == $userPassword) {
-          $toReturn = new ReqResponse(true, "User's connected");
+          $cookieHasCreated = Cookie::createCookie("watapp_user", $user->id, 1, 'localstorage');
+          if ($cookieHasCreated) {
+            $toReturn = new ReqResponse([
+              "isLogin" => true,
+              "token" => $cookieHasCreated
+            ], "User's connected");
+          } else {
+            $toReturn = new ReqResponse(false, "Erreur interne du serveur");
+          }
         } else {
           $toReturn = new ReqResponse(false, "Le mot de passe que vous avez entrer est incorrect");
         }
