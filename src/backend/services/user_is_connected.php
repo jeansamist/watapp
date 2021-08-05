@@ -4,9 +4,9 @@
   require "../config/bd.php";
   require "../config/classes/Autoloader.php";
   Autoloader::register();
-  if (isset($_COOKIE["watapp_user"])) {
-    $cookie_data = $_COOKIE['watapp_user'];
-    Cookie::verifyCookie($cookie_data);
+  if (isset($_GET["watapp_user"])) {
+    $cookie_data = $_GET['watapp_user'];
+    $request_data = Cookie::verifyCookie($cookie_data);
   } else {
     $request_data = false;
   }

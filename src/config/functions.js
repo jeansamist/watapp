@@ -11,7 +11,6 @@ export const createKey = (lenght = 10) => {
     const element = symbols[Math.round(Math.random() * (symbols.length - 1))];
     key = key + element
   }
-  console.log(key);
   return key
 }
 

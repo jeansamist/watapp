@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { PeopleFill } from 'react-bootstrap-icons';
 import StatCard from '../StatCard.jsx';
+import * as Config from "./../../config/Variables"
 export default class ClientsStats extends Component {
 
   state = {
     data: [
       {
-        name: "Clients Totaux",
+        name: "Loading...",
         ico: <PeopleFill />,
-        newData: Math.random() * 100,
+        newData: 0,
         oldData: Math.random() * 100
       }
      //  {
@@ -20,20 +21,28 @@ export default class ClientsStats extends Component {
     ]
  }
 
-
-  constructor(props) {
-    super(props)    
-    
-  }
-
   componentDidMount(){
-    fetch('http://localhost:8000/services/clients.php').then((response) => {
-      return response.json()
-    }).then((result) => {
-      this.setState({data: [
-        {newData: result}
-      ]})
-      console.log(result)
+    fetch(`${Config.server}services/clients_count.php`)
+    .then((response) => {
+      if (response) {
+        return response.json()
+      }
+      return false;
+    })
+    .then((result) => {
+      if (result.response_data) {
+        console.log(result);
+        this.setState({ data: [
+          {
+            name: "Clients Totaux",
+            ico: <PeopleFill />,
+            newData: result.response_data,
+            oldData: Math.random() * 100
+          }
+        ] });
+      } else {
+        console.log(result.response_message);
+      }
     })
   }
   
