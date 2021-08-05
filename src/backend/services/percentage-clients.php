@@ -3,17 +3,19 @@
 include_once '../config/headers.php';
 include_once '../config/bd.php';
 include_once '../config/classes/Autoloader.php';
+Autoloader::register();
 
 
-$clientDate = "SELECT date FROM clients";
-$clientDate = $pdo->query($clientDate);
-$clientDate->fetch(PDO::FETCH_ASSOC);
-echo ($clientDate); die();
+$curentDate1 = (int)time() - (3600 * 24);
+$curentDate2 = (int)time() - (3600 * 24) - (3600 * 24);
 
-$curentDate = (int)time();
+$clientDateSQL = 'SELECT id FROM clients WHERE date >= ? AND date <= ? ';
+$clientDateReq = $pdo->prepare($clientDateSQL);
+$clientDateReq->execute([
+    $curentDate2,
+    $curentDate1
+]);
 
-for ($i=0; $i < count($clientDate); $i++) { 
-    echo'a';
-}
-
-var_dump($date);
+$fetchData = $clientDateReq->fetch();
+$toReturn = new ReqResponse($fetchData);
+var_dump($toReturn);
