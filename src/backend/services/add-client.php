@@ -18,13 +18,15 @@ if (!empty($_POST)) {
             $name = htmlspecialchars($_POST['name']);
             $lastname = htmlspecialchars($_POST['lastname']);
             $sex = htmlspecialchars($_POST['sex']);
+            $about = htmlspecialchars($_POST['about']);
             $date = (int)time();
   
-            $addClient = $pdo->prepare('INSERT INTO clients (name, lastname, sex, date) VALUES (:name, :lastname, :sex, :date)');
+            $addClient = $pdo->prepare('INSERT INTO clients (name, lastname, sex, about, date) VALUES (:name, :lastname, :sex, :about, :date)');
             $addClient->execute([
               'name' => $name,
               'lastname' => $lastname,
               'sex' => $sex,
+              'about' => $about,
               'date' => $date
             ]);
             $fetchData = $addClient->fetch();
