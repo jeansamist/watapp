@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 05 août 2021 à 18:59
+-- Généré le : ven. 06 août 2021 à 19:49
 -- Version du serveur : 10.4.20-MariaDB
 -- Version de PHP : 8.0.8
 
@@ -32,6 +32,7 @@ CREATE TABLE `clients` (
   `name` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `sex` varchar(255) NOT NULL,
+  `about` varchar(255) NOT NULL,
   `date` int(255) NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,9 +40,10 @@ CREATE TABLE `clients` (
 -- Déchargement des données de la table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `lastname`, `sex`, `date`) VALUES
-(7, 'talom', 'landry', 'maxculin', 1628166040),
-(8, 'alfred', 'landry', 'maxculin', 1628166234);
+INSERT INTO `clients` (`id`, `name`, `lastname`, `sex`, `about`, `date`) VALUES
+(7, 'talom', 'landry', 'maxculin', '', 1628166040),
+(8, 'alfred', 'landry', 'maxculin', '', 1628166234),
+(9, 'Skysoft', 'landry', 'maxculin', 'C\'est l\'employer du moi.', 1628247027);
 
 -- --------------------------------------------------------
 
@@ -84,6 +86,37 @@ CREATE TABLE `employer` (
   `generetedid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `employer`
+--
+
+INSERT INTO `employer` (`id`, `name`, `generetedid`) VALUES
+(1, 'emplyer1', 'nNIDnofNaF'),
+(2, 'employer2', 'nNIDnofNaF'),
+(3, 'employer3', 'nNIDnofNaF'),
+(4, 'employer4', 'nNIDnofNaF');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `produits`
+--
+
+CREATE TABLE `produits` (
+  `id` int(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `unitaryprice` int(255) NOT NULL,
+  `generetedid` varchar(255) NOT NULL,
+  `stocknumber` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `produits`
+--
+
+INSERT INTO `produits` (`id`, `name`, `unitaryprice`, `generetedid`, `stocknumber`) VALUES
+(10, 'pain', 100, 'KhOydkOQaZ', 800);
+
 -- --------------------------------------------------------
 
 --
@@ -93,8 +126,16 @@ CREATE TABLE `employer` (
 CREATE TABLE `structure` (
   `id` int(255) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `place` varchar(255) NOT NULL,
   `generetedid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `structure`
+--
+
+INSERT INTO `structure` (`id`, `name`, `place`, `generetedid`) VALUES
+(20, 'Skysoft', 'Bependa', 'nNIDnofNaF');
 
 -- --------------------------------------------------------
 
@@ -141,6 +182,12 @@ ALTER TABLE `employer`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `produits`
+--
+ALTER TABLE `produits`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `structure`
 --
 ALTER TABLE `structure`
@@ -160,7 +207,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `cookies`
@@ -172,13 +219,19 @@ ALTER TABLE `cookies`
 -- AUTO_INCREMENT pour la table `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `produits`
+--
+ALTER TABLE `produits`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `structure`
 --
 ALTER TABLE `structure`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `users`
