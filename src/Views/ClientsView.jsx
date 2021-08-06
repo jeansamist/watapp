@@ -11,6 +11,7 @@ import { createKey, closeModal } from '../config/functions.js';
 import ClientsStats from '../components/Clients/ClientsStats.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
 import { TableOpenModal } from '../components/Tables.jsx';
+import avatarDefault from './../assets/images/app/avatars/default.png';
 import * as Config from "./../config/Variables"
 
 export default class ShoppingView extends Component {
@@ -93,10 +94,13 @@ export default class ShoppingView extends Component {
    */
   modalData() {
     let clientToView = this.state.clientToView
+    let torend = false
       if (clientToView !== "") {
-        return clientToView;
-    } else {
-      return "no clientToView"
+        fetch(`${Config.server}services/req_client.php?client_id=${clientToView}`)
+        .then((response) => response.json())
+        .then((result) => {
+          torend = result.response_data
+        })
     }
   }
 
@@ -107,9 +111,20 @@ export default class ShoppingView extends Component {
    * A modifier lors de l'élaboration du backend
    */
   ModalViewclient () {
-    return <Modal title="Voir un client" id="modal-view-client">
-      {this.modalData()}
-    </Modal>
+    let data = this.modalData()
+    if (data) {
+      return <Modal title="Voir un client" id="modal-view-client">
+        <div className="row">
+          <div className="col-md-5 col-sm-6 col-12">
+            <img src={avatarDefault} alt={createKey(100)} />
+          </div>
+        </div>
+      </Modal>
+    } else {
+      return <Modal title="Voir un client" id="modal-view-client">
+        
+      </Modal>
+    }
   }
 
 

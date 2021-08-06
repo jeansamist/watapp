@@ -6,7 +6,7 @@ import { CardWithImage } from '../components/Cards.jsx';
 import Loader from '../components/Loader.jsx';
 import { createKey } from '../config/functions.js';
 import Topbar from "./../components/Topbar.jsx";
-import structureImageDefault from './../assets/images/app/scructures/default.jpg'
+import structureImageDefault from './../assets/images/app/structures/default.jpg'
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
 import { ModalForm } from '../components/Modals.jsx';

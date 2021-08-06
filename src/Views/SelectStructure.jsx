@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { CardWithImage } from '../components/Cards'
 import { Button } from '../components/Forms/Buttons'
 import { createKey } from '../config/functions'
-import structureImageDefault from './../assets/images/app/scructures/default.jpg'
+import structureImageDefault from './../assets/images/app/structures/default.jpg'
 
 export default class SelectStructure extends Component {
   constructor(props) {
