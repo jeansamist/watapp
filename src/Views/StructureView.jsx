@@ -11,6 +11,7 @@ import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
 import { ModalForm } from '../components/Modals.jsx';
 import Field from '../components/Forms/Field.jsx';
+import * as Config from "./../config/Variables"
 
 export default class StructureView extends Component {
   constructor(props) {
@@ -75,7 +76,8 @@ export default class StructureView extends Component {
         },
       ],
       workersToAdd: [],
-      workers: []
+      workers: [],
+      workersList: []
     }
     this.ModalCreateStructure = this.ModalCreateStructure.bind(this)
     this.createStructure = this.createStructure.bind(this)
@@ -105,13 +107,12 @@ export default class StructureView extends Component {
           className="select"
           onChange={selectWorkershandleChange}
           name="colors"
-          options={[
-            { value: createKey(), label: 'Francis LeGrand'},
-            { value: createKey(), label: 'Emmanuel Newz'},
-            { value: createKey(), label: 'Peter Widston'}
-          ]}
+          options={
+            this.state.workersList
+          }
         />
       </div>
+      <Field type="text" label={"Localisation de la structure"} />
     </ModalForm>
   }
 
@@ -126,9 +127,22 @@ export default class StructureView extends Component {
 
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({ loading: true })
-    }, 5000);
+    fetch(`${Config.server}services/req_users.php`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result);
+      this.setState({
+        loading: true,
+        workersList: result.response_data.map((worker, k) => {
+          return {
+            value: worker.id,
+            label: worker.full_name
+          }
+        })
+      })
+    })
   }
   render() {
     if (this.state.loading) {

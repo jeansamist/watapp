@@ -15,21 +15,16 @@ if (!empty($_POST)) {
     if (!$error) {
           if (isset($_POST['name'])) {
             $name = htmlspecialchars($_POST['name']);
-            $place = htmlspecialchars($_POST['place']);
-            // $image = htmlspecialchars($_POST['image']);
+            $localisation = htmlspecialchars($_POST['localisation']);
+            $users = $_POST['users'];
+            $token = Random::random_string(10, 'normal');
 
-            $generetedid = Random::random_string(10, 'normal');
-            session_start();
-            $_SESSION['generetedid'] = $generetedid;
-
-            //* La tu mets l'email de l'admin comme dernier parametre *\\
-            // SendMail::send_mail($name, $generetedid, $email);
-            
-            $addStructure = $pdo->prepare('INSERT INTO structure (name, place, generetedid) VALUES (:name, :place, :generetedid)');
+            $addStructure = $pdo->prepare('INSERT INTO structure (name, localisation, users, token) VALUES (:name, :localisation, :users :token)');
             $addStructure->execute([
               'name' => $name,
-              'place' => $place,
-              'generetedid' => $generetedid
+              'localisation' => $localisation,
+              'users' => $users,
+              'token' => $token
             ]);
             $toReturn = new ReqResponse(true);
           } else {
