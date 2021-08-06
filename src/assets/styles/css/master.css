@@ -482,13 +482,31 @@ section {
   overflow: hidden;
   overflow-x: auto;
 }
-
+.modal-box {
+  position: relative;
+}
 .modal-box .card  {
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: calc(57px + 0.5em);
 }
 
+.modal-box .modal-load {
+  display: none;
+}
+
+.modal-box .modal-load.active {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-opact);
+}
 .card-simple {
   width: 100%;
   padding: 1em;

@@ -1,3 +1,4 @@
+// import { Modal } from "../components/Modals";
 import * as Config from "./Variables"
 /**
  * Créer une clé aléatoirement
