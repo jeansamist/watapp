@@ -42,6 +42,10 @@ export default class ShoppingView extends Component {
     this.doclient = this.doclient.bind(this)
   }
 
+  reRender = () => {
+    this.forceUpdate()
+  }
+
   componentDidMount () {
     fetch(`${Config.server}services/req_clients.php`)
     .then((response) => {
@@ -55,7 +59,6 @@ export default class ShoppingView extends Component {
           thead: ['Nom et Prenom', "E-mail", "Inscrit le"],
           tbody: result.response_data.map((client, k) => {
             let t = new Date(parseInt(client.date, 10))
-            console.log(parseInt(client.date, 10));
             return {
               id: client.id,
               data: [
@@ -69,12 +72,6 @@ export default class ShoppingView extends Component {
       })
       this.setState({ loading: true })
     })
-    setTimeout(() => {
-      
-    }, 500);
-  }
-
-  componentDidUpdate () {
   }
 
   Tools () {
@@ -136,7 +133,6 @@ export default class ShoppingView extends Component {
       }
     </ModalForm>
   }
-
   
   /**
    * Fonction appelé lors de la création d'un client
@@ -174,7 +170,7 @@ export default class ShoppingView extends Component {
       .then((result) => {
         if (result.response_data) {
           closeModal("modal-client");
-          alert(result.response_message)
+          // alert(result.response_message)d
           // openModal('requestdone')
           for (let i = 0; i < inputs.length; i++) {
             const input = inputs[i];
@@ -182,6 +178,31 @@ export default class ShoppingView extends Component {
           }
           reqLoad.forEach(load => {
             load.classList.remove('active')
+          })
+          // this.reRender()
+          fetch(`${Config.server}services/req_clients.php`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            console.log(result);
+            this.setState({
+              tableclients: {
+                tableTitle: createKey(),
+                thead: ['Nom et Prenom', "E-mail", "Inscrit le"],
+                tbody: result.response_data.map((client, k) => {
+                  let t = new Date(parseInt(client.date, 10))
+                  return {
+                    id: client.id,
+                    data: [
+                      client.lastname + " " + client.name,
+                      client.mail,
+                      t.toDateString()
+                    ]
+                  }
+                })
+              },
+            })
           })
         } else {
           // console.log(response);
