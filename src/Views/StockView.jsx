@@ -8,35 +8,26 @@ import StatCard from '../components/StatCard.jsx';
 import { TableOpenModal } from '../components/Tables.jsx';
 import { Modal, ModalForm } from '../components/Modals.jsx';
 import TitleToolsBar from '../components/TitleToolsBar.jsx';
-import { createKey } from '../config/functions.js';
+import { closeModal, createKey } from '../config/functions.js';
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import CreatableSelect from 'react-select/creatable';
 import Field from '../components/Forms/Field.jsx';
+import * as Config from "./../config/Variables"
+
 export default class StockView extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      createStockAlert: false,
       loading: false,
       structure: this.props.match.params.structure,
       tableProducts: {
         tableTitle: createKey(),
-        thead: ['Nom du stock', "Prix Unitaire", "Quantité"],
+        thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
         tbody: [
           {
-            id: createKey(),
-            data: [createKey(), 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: [createKey(), 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: [createKey(), 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: [createKey(), 'ghsd', 'mlkjh']
+            id: "No key :(",
+            data: ["Loading..."]
           }
         ]
       },
@@ -45,18 +36,62 @@ export default class StockView extends Component {
         { value:"hjk", label:"hjdqsdq" }
       ],
       stockToIncrement: [],
-      stocks: []
+      stocks: [],
+      stocksList: []
     }
     this.ModalViewProduct = this.ModalViewProduct.bind(this)
     this.modalData = this.modalData.bind(this)
     this.ModalIncrement = this.ModalIncrement.bind(this)
     this.ModalCreateStock = this.ModalCreateStock.bind(this)
+    this.createStock = this.createStock.bind(this)
+    this.increment = this.increment.bind(this)
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({ loading: true })
-    }, 1000);
+    fetch(`${Config.server}services/req_stocks.php`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result);
+      if (result.response_data) {
+        this.setState({
+          stocksList: result.response_data.map((stock, k) => {
+            return {
+              value: stock.token,
+              unitary_price: stock.unitary_price,
+              label: stock.name,
+            }
+          })
+        })
+      }
+    })
+    fetch(`${Config.server}services/req_current_stock.php`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result);
+      this.setState({
+        loading: true,
+        tableProducts: {
+          tableTitle: createKey(),
+          thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
+          tbody: result.response_data.map((stock, k) => {
+            let tp = stock.unitary_price * stock.quantity;
+            return {
+              id: stock.token,
+              data: [
+                stock.name,
+                stock.unitary_price,
+                stock.quantity,
+                tp
+              ]
+            }
+          })
+        },
+      })
+    })
   }
   modalData() {
     let productToView = this.state.productToView
@@ -77,25 +112,168 @@ export default class StockView extends Component {
 
 
   createStock () {
-    console.log("Create");
+    let inputs = document.querySelectorAll('#modal-stock-create input');
+    let err = false;
+    let toShare = [];
+    for (let i = 0; i < inputs.length; i++) {
+      const input = inputs[i];
+      if (input.value !== "") {
+        toShare.push(`${input.getAttribute("name")}=${input.value}`)
+      } else {
+        err = true;
+        this.setState({ createStockAlert: "Veuiller completer tous les champs" });
+        break;
+      }
+    }
+    if (!err) {
+      let reqLoad = document.querySelectorAll(".modals .modal-load")
+      reqLoad.forEach(load => {
+        load.classList.add('active')
+      })
+      fetch(`${Config.server}services/create-stock.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `${toShare[0]}&${toShare[1]}`
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        if (result.response_data) {
+          closeModal("modal-stock-create");
+          // alert(result.response_message)d
+          // openModal('requestdone')
+          for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            input.value = ""
+          }
+          reqLoad.forEach(load => {
+            load.classList.remove('active')
+          })
+        } else {
+          // console.log(response);
+          this.setState({ createStockAlert: result.response_message });
+          reqLoad.forEach(load => {
+            load.classList.remove('active')
+          })
+        }
+      })
+    }
   }
   ModalCreateStock () {
     return <ModalForm title="Créer un stock" id="modal-stock-create" onSubmit={this.createStock} buttons={[<Button type="submit" name="Créer" />]}>
-      <Field type="text" label="Nom du stock" />
+      <Field type="text" name="name" label="Nom du stock" />
+      <Field type="number" name="unitary_price" label="Prix unitaire du stock" />
+      {
+        this.state.createStockAlert ? <div className="error">{this.state.createStockAlert}</div> : ""
+      }
     </ModalForm>
   }
 
   increment () {
-    console.log("Incrément");
+    let inputs = document.querySelectorAll('#modal-stock-increment .input-field');
+    let err = false;
+    let toShare = [];
+    for (let i = 0; i < inputs.length; i++) {
+      const input = inputs[i];
+      if (input.value !== "") {
+        toShare.push(input.value)
+      } else {
+        err = true;
+        this.setState({ createStockAlert: "Veuiller completer tous les champs" });
+        break;
+      }
+    }
+    if (!err) {
+      let reqLoad = document.querySelectorAll(".modals .modal-load")
+      reqLoad.forEach(load => {
+        load.classList.add('active')
+      })
+      fetch(`${Config.server}services/increment-stock.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `stocks=${JSON.stringify(this.state.stocks)}&qty=${JSON.stringify(toShare)}`
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        if (result.response_data) {
+          closeModal("modal-stock-inctement");
+          // alert(result.response_message)d
+          // openModal('requestdone')
+          this.setState({ stockToIncrement: [] });
+          for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            input.value = ""
+          }
+          reqLoad.forEach(load => {
+            load.classList.remove('active')
+          })
+        } else {
+          // console.log(response);
+          this.setState({ createStockAlert: result.response_message });
+          reqLoad.forEach(load => {
+            load.classList.remove('active')
+          })
+        }
+      })
+      fetch(`${Config.server}services/req_current_stock.php`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        this.setState({
+          tableProducts: {
+            tableTitle: createKey(),
+            thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
+            tbody: result.response_data.map((stock, k) => {
+              let tp = stock.unitary_price * stock.quantity;
+              return {
+                id: stock.token,
+                data: [
+                  stock.name,
+                  stock.unitary_price,
+                  stock.quantity,
+                  tp
+                ]
+              }
+            })
+          },
+        })
+      })
+      fetch(`${Config.server}services/req_stocks.php`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        if (result.response_data) {
+          this.setState({
+            stocksList: result.response_data.map((stock, k) => {
+              return {
+                value: stock.token,
+                unitary_price: stock.unitary_price,
+                label: stock.name,
+              }
+            })
+          })
+        }
+      })
+    }
   }
   ModalIncrement () {
 
     const selectStockhandleChange = (newValue) => {
       this.setState({
         stockToIncrement: newValue,
-        stocks: newValue.map((val, k) => {
-          let obj = {stockId: val.value, stockQty: 0, stockPrice: val.price}
-          return obj;
+        stocks: newValue.map((val) => {
+          return val.value;
         }),
       })
     }
@@ -109,7 +287,7 @@ export default class StockView extends Component {
             className="select"
             onChange={selectStockhandleChange}
             name="colors"
-            options={this.state.stockSelect}
+            options={this.state.stocksList}
           />
         </div>
       </div>
@@ -121,6 +299,9 @@ export default class StockView extends Component {
           </div>
         })}
       </div>
+      {
+        this.state.createStockAlert ? <div className="error">{this.state.createStockAlert}</div> : ""
+      }
     </ModalForm>
   }
   handdleTableViewProductClick (event) {
@@ -136,10 +317,10 @@ export default class StockView extends Component {
           <div className="container-fluid">
             <section className="row stock-stats">
               <div className="col-md-6">
-                <StatCard ico={<Box />} oldData={Math.round((Math.random() * 100))} newData={Math.round((Math.random() * 100))} name="Total des stocks vide" />
+                <StatCard ico={<Box />} oldData={Math.round((Math.random() * 100))} newData={this.state.stocksList.length} name="Total de Stock" />
               </div>
               <div className="col-md-6">
-                <StatCard ico={<Box />} oldData={Math.round((Math.random() * 100))} newData={Math.round((Math.random() * 100))} name="Total des stocks plein" />
+                <StatCard ico={<Box />} oldData={Math.round((Math.random() * 100))} newData={this.state.tableProducts.tbody.length} name="Total des stocks plein" />
               </div>
             </section>
             <section>

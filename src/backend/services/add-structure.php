@@ -13,32 +13,36 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-          if (isset($_POST['name'])) {
-            $name = htmlspecialchars($_POST['name']);
-            $place = htmlspecialchars($_POST['place']);
-            // $image = htmlspecialchars($_POST['image']);
-
-            $generetedid = Random::random_string(10, 'normal');
-            session_start();
-            $_SESSION['generetedid'] = $generetedid;
-
-            //* La tu mets l'email de l'admin comme dernier parametre *\\
-            // SendMail::send_mail($name, $generetedid, $email);
-            
-            $addStructure = $pdo->prepare('INSERT INTO structure (name, place, generetedid) VALUES (:name, :place, :generetedid)');
-            $addStructure->execute([
-              'name' => $name,
-              'place' => $place,
-              'generetedid' => $generetedid
-            ]);
-            $toReturn = new ReqResponse(true);
-          } else {
-            $err = false;
-            $toReturn = new ReqResponse($err, 'champ pas complet');
-          }
+      $name = htmlspecialchars($_POST['name']);
+      $localisation = htmlspecialchars($_POST['localisation']);
+      $workers = json_decode($_POST['workers']);
+      $token = Random::random_string(100);
+      $addStructure = $pdo->prepare('INSERT INTO structures (name, localisation, workers, token) VALUES (?, ?, ?, ?)');
+      $addStructure->execute([
+        $name,
+        $localisation,
+        json_encode($workers),
+        $token
+      ]);
+      foreach ($workers as $value) {
+        $value = (int) $value;
+        $getUserStructureReq = $pdo->prepare('SELECT structures FROM users WHERE id = ?');
+        $getUserStructureReq->execute([$value]);
+        $fetch = $getUserStructureReq->fetch();
+        if ($fetch->structures == "" OR $fetch->structures == "*" OR $fetch->structures == "null") {
+          $userOldStructures = [];
+        } else {
+          $userOldStructures = json_decode($fetch->structures);
+        }
+        array_push($userOldStructures, $token);
+        $setUserReq = $pdo->prepare('UPDATE users SET structures = ? WHERE id = ?');
+        $setUserReq->execute([json_encode($userOldStructures), $value]);
+        
+      }
+      $toReturn = new ReqResponse(true);         
     } else {
       $err = false;
-      $toReturn = new ReqResponse($err, 'il y a eu une grosse erreur');
+      $toReturn = new ReqResponse($err, 'Veiller complétez tous les champs');
     }
 } else {
   $err = false;

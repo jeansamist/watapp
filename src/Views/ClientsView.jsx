@@ -94,7 +94,7 @@ export default class ShoppingView extends Component {
    */
   modalData() {
     let clientToView = this.state.clientToView
-    let torend = false
+    let torend
       if (clientToView !== "") {
         fetch(`${Config.server}services/req_client.php?client_id=${clientToView}`)
         .then((response) => response.json())
