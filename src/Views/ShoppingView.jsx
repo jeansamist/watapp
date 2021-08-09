@@ -204,7 +204,7 @@ export default class ShoppingView extends Component {
               </div>
             </section>
             <section>
-              <TitleToolsBar title="Inventaire des Stock récents">
+              <TitleToolsBar title="Liste des dernières ventes">
                 <this.Tools />
               </TitleToolsBar>
               <TableOpenModal

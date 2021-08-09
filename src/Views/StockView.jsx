@@ -203,7 +203,7 @@ export default class StockView extends Component {
       })
       .then((result) => {
         if (result.response_data) {
-          closeModal("modal-stock-inctement");
+          closeModal("modal-stock-increment");
           // alert(result.response_message)d
           // openModal('requestdone')
           this.setState({ stockToIncrement: [] });

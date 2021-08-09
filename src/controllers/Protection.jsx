@@ -36,11 +36,11 @@ export default class Protection extends Component {
           this.setState({isLogin: result.response_data, isLoading: true})
         })
       } else {
-        this.setState({isLogin: true, isLoading: true })
+        this.setState({isLogin: false, isLoading: true })
       }
       
     } catch (error) {
-      this.setState({isLogin: true, isLoading: true })
+      this.setState({isLogin: false, isLoading: true })
     }
   }
   

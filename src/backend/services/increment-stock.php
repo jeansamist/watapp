@@ -17,6 +17,12 @@ if (!empty($_POST)) {
       $qties = json_decode($_POST['qty']);
       foreach ($stocks as $key => $stockToken) {
         $qty = (int) $qties[$key];
+        $oldValue =$pdo->prepare('SELECT quantity FROM stocks WHERE token = ?');
+        $oldValue->execute([$stockToken]);
+        $f = $oldValue->fetch();
+        $oldStock = (int) $f->quantity;
+        $qty = $qty + $oldStock;
+
         $updateStockReq = $pdo->prepare('UPDATE stocks SET quantity = ? WHERE token = ?');
         $updateStockReq->execute([$qty, $stockToken]);
         $toReturn = new ReqResponse(true);
