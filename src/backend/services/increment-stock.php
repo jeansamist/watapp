@@ -13,43 +13,14 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-          if (isset($_POST['name'], $_POST['prix'], $_POST['stock'])) {
-            //C'est la variable qui recevrat l'obet a incrementer
-            $objectToIncrement;
-            
-            $name = htmlspecialchars($_POST['name']);
-            $prixUnitaire = htmlspecialchars($_POST['prix']);
-            $stock = htmlspecialchars($_POST['stock']);
-            $id = 10;
-            if (!empty($name)) {
-                $addStructure = $pdo->prepare('UPDATE produits SET name =:name WHERE name =:objectToIncrement');
-                $addStructure->execute([
-                  'name' => $name,
-                  'objectToIncrement' => $objectToIncrement
-                ]);
-                $toReturn = new ReqResponse(true);
-            }
-            if (!empty($prixUnitaire)) {
-                $addStructure = $pdo->prepare('UPDATE produits SET unitaryprice =:prixunitaire WHERE name =:objectToIncrement');
-                $addStructure->execute([
-                  'prixunitaire' => $prixUnitaire,
-                  'objectToIncrement' => $objectToIncrement
-                ]);
-                $toReturn = new ReqResponse(true);
-            }
-            if (!empty($stock)) {
-                $addStructure = $pdo->prepare('UPDATE produits SET stocknumber =:stock WHERE name =:objectToIncrement');
-                $addStructure->execute([
-                  'stock' => $stock,
-                  'objectToIncrement' => $objectToIncrement
-                ]);
-                $toReturn = new ReqResponse(true);
-            }
-
-          } else {
-            $err = false;
-            $toReturn = new ReqResponse($err, 'champ pas complet');
-          }
+      $stocks = json_decode($_POST['stocks']);
+      $qties = json_decode($_POST['qty']);
+      foreach ($stocks as $key => $stockToken) {
+        $qty = (int) $qties[$key];
+        $updateStockReq = $pdo->prepare('UPDATE stocks SET quantity = ? WHERE token = ?');
+        $updateStockReq->execute([$qty, $stockToken]);
+        $toReturn = new ReqResponse(true);
+      }
     } else {
       $err = false;
       $toReturn = new ReqResponse($err, 'il y a eu une grosse erreur');

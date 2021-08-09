@@ -13,27 +13,36 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-          if (isset($_POST['name'])) {
-            $name = htmlspecialchars($_POST['name']);
-            $localisation = htmlspecialchars($_POST['localisation']);
-            $users = $_POST['users'];
-            $token = Random::random_string(10, 'normal');
-
-            $addStructure = $pdo->prepare('INSERT INTO structure (name, localisation, users, token) VALUES (:name, :localisation, :users :token)');
-            $addStructure->execute([
-              'name' => $name,
-              'localisation' => $localisation,
-              'users' => $users,
-              'token' => $token
-            ]);
-            $toReturn = new ReqResponse(true);
-          } else {
-            $err = false;
-            $toReturn = new ReqResponse($err, 'champ pas complet');
-          }
+      $name = htmlspecialchars($_POST['name']);
+      $localisation = htmlspecialchars($_POST['localisation']);
+      $workers = json_decode($_POST['workers']);
+      $token = Random::random_string(100);
+      $addStructure = $pdo->prepare('INSERT INTO structures (name, localisation, workers, token) VALUES (?, ?, ?, ?)');
+      $addStructure->execute([
+        $name,
+        $localisation,
+        json_encode($workers),
+        $token
+      ]);
+      foreach ($workers as $value) {
+        $value = (int) $value;
+        $getUserStructureReq = $pdo->prepare('SELECT structures FROM users WHERE id = ?');
+        $getUserStructureReq->execute([$value]);
+        $fetch = $getUserStructureReq->fetch();
+        if ($fetch->structures == "" OR $fetch->structures == "*" OR $fetch->structures == "null") {
+          $userOldStructures = [];
+        } else {
+          $userOldStructures = json_decode($fetch->structures);
+        }
+        array_push($userOldStructures, $token);
+        $setUserReq = $pdo->prepare('UPDATE users SET structures = ? WHERE id = ?');
+        $setUserReq->execute([json_encode($userOldStructures), $value]);
+        
+      }
+      $toReturn = new ReqResponse(true);         
     } else {
       $err = false;
-      $toReturn = new ReqResponse($err, 'il y a eu une grosse erreur');
+      $toReturn = new ReqResponse($err, 'Veiller complétez tous les champs');
     }
 } else {
   $err = false;

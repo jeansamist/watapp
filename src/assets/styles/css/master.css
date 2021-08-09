@@ -419,6 +419,8 @@ a {
   background: var(--primary-opact);
   color: var(--primary);
   font-weight: bold;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .stat-card > .stat-card-data {
