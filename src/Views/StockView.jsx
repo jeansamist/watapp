@@ -48,12 +48,12 @@ export default class StockView extends Component {
   }
 
   componentDidMount () {
-    fetch(`${Config.server}services/req_stocks.php`)
+    fetch(`${Config.server}services/req_stocks.php?structure=${this.state.structure}`)
     .then((response) => {
       return response.json();
     })
     .then((result) => {
-      console.log(result);
+      // (result);
       if (result.response_data) {
         this.setState({
           stocksList: result.response_data.map((stock, k) => {
@@ -64,33 +64,53 @@ export default class StockView extends Component {
             }
           })
         })
+      } else {
+        this.setState({
+          stocksList: []
+        })
       }
     })
-    fetch(`${Config.server}services/req_current_stock.php`)
+    fetch(`${Config.server}services/req_current_stock.php?structure=${this.state.structure}`)
     .then((response) => {
       return response.json();
     })
     .then((result) => {
-      console.log(result);
-      this.setState({
-        loading: true,
-        tableProducts: {
-          tableTitle: createKey(),
-          thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
-          tbody: result.response_data.map((stock, k) => {
-            let tp = stock.unitary_price * stock.quantity;
-            return {
-              id: stock.token,
+      // (result);
+      if (result.response_data) {
+        this.setState({
+          loading: true,
+          tableProducts: {
+            tableTitle: createKey(),
+            thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
+            tbody: result.response_data.map((stock, k) => {
+              let tp = stock.unitary_price * stock.quantity;
+              return {
+                id: stock.token,
+                data: [
+                  stock.name,
+                  stock.unitary_price,
+                  stock.quantity,
+                  tp
+                ]
+              }
+            })
+          },
+        })
+      } else {
+        this.setState({
+          loading: true,
+          tableProducts: {
+            tableTitle: createKey(),
+            thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
+            tbody: [{
+              id: createKey(),
               data: [
-                stock.name,
-                stock.unitary_price,
-                stock.quantity,
-                tp
+                result.response_message
               ]
-            }
-          })
-        },
-      })
+            }]
+          },
+        })
+      }
     })
   }
   modalData() {
@@ -135,7 +155,7 @@ export default class StockView extends Component {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: `${toShare[0]}&${toShare[1]}`
+        body: `${toShare[0]}&${toShare[1]}&structure=${this.state.structure}`
       })
       .then((response) => {
         return response.json();
@@ -143,17 +163,29 @@ export default class StockView extends Component {
       .then((result) => {
         if (result.response_data) {
           closeModal("modal-stock-create");
-          // alert(result.response_message)d
-          // openModal('requestdone')
-          for (let i = 0; i < inputs.length; i++) {
-            const input = inputs[i];
-            input.value = ""
-          }
           reqLoad.forEach(load => {
             load.classList.remove('active')
           })
+          fetch(`${Config.server}services/req_stocks.php?structure=${this.state.structure}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            // (result);
+            if (result.response_data) {
+              this.setState({
+                stocksList: result.response_data.map((stock, k) => {
+                  return {
+                    value: stock.token,
+                    unitary_price: stock.unitary_price,
+                    label: stock.name,
+                  }
+                })
+              })
+            }
+          })
         } else {
-          // console.log(response);
+          // // (response);
           this.setState({ createStockAlert: result.response_message });
           reqLoad.forEach(load => {
             load.classList.remove('active')
@@ -196,7 +228,7 @@ export default class StockView extends Component {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: `stocks=${JSON.stringify(this.state.stocks)}&qty=${JSON.stringify(toShare)}`
+        body: `stocks=${JSON.stringify(this.state.stocks)}&qty=${JSON.stringify(toShare)}&structure=${this.state.structure}`
       })
       .then((response) => {
         return response.json();
@@ -214,54 +246,37 @@ export default class StockView extends Component {
           reqLoad.forEach(load => {
             load.classList.remove('active')
           })
+          fetch(`${Config.server}services/req_current_stock.php?structure=${this.state.structure}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            // (result);
+            this.setState({
+              stock: [],
+              tableProducts: {
+                tableTitle: createKey(),
+                thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
+                tbody: result.response_data.map((stock, k) => {
+                  let tp = stock.unitary_price * stock.quantity;
+                  return {
+                    id: stock.token,
+                    data: [
+                      stock.name,
+                      stock.unitary_price,
+                      stock.quantity,
+                      tp
+                    ]
+                  }
+                })
+              },
+            })
+          })
         } else {
-          // console.log(response);
+          // // (response);
           this.setState({ createStockAlert: result.response_message });
           reqLoad.forEach(load => {
             load.classList.remove('active')
-          })
-        }
-      })
-      fetch(`${Config.server}services/req_current_stock.php`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result);
-        this.setState({
-          tableProducts: {
-            tableTitle: createKey(),
-            thead: ['Nom du stock', "Prix Unitaire", "Quantité", "Total"],
-            tbody: result.response_data.map((stock, k) => {
-              let tp = stock.unitary_price * stock.quantity;
-              return {
-                id: stock.token,
-                data: [
-                  stock.name,
-                  stock.unitary_price,
-                  stock.quantity,
-                  tp
-                ]
-              }
-            })
-          },
-        })
-      })
-      fetch(`${Config.server}services/req_stocks.php`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result);
-        if (result.response_data) {
-          this.setState({
-            stocksList: result.response_data.map((stock, k) => {
-              return {
-                value: stock.token,
-                unitary_price: stock.unitary_price,
-                label: stock.name,
-              }
-            })
           })
         }
       })

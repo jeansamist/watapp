@@ -3,37 +3,49 @@ import { CardWithImage } from '../components/Cards'
 import { Button } from '../components/Forms/Buttons'
 import { createKey } from '../config/functions'
 import structureImageDefault from './../assets/images/app/structures/default.jpg'
+import * as Config from "./../config/Variables"
 
 export default class SelectStructure extends Component {
   constructor(props) {
     super(props)
     this.build = this.build.bind(this)
     this.state = {
-      sctructures: [
+      structures: [
         {
           image: structureImageDefault,
-          name: "Boutique de kotto",
-          link: createKey(30)
+          name: "Loading...",
+          link: "#no"
         },
-        {
-          image: structureImageDefault,
-          name: "Boutique de kotto",
-          link: createKey(30)
-        },
-        {
-          image: structureImageDefault,
-          name: "Boutique de kotto",
-          link: createKey(30)
-        }
       ]
     }
   }
+
+  componentDidMount () {
+    fetch(`${Config.server}services/select_structure.php?cookie_token=${localStorage.getItem("watapp_user")}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result);
+      if (result.response_data) {
+        this.setState({
+          structures: result.response_data.map((structure) => {
+            return {
+              image: structureImageDefault,
+              name: structure.name,
+              link: structure.token
+            }
+          })
+        })
+      }
+    })
+  }
   
   build () {
-    return this.state.sctructures.map((sctructure, k) => {
+    return this.state.structures.map((structure, k) => {
       return <div className="s col-sm-4 mb-4" key={k}>
-        <CardWithImage imageSrc={sctructure.image} key={k} buttons={[<Button type="link" to={"/watapp/dashboard/" + sctructure.link} name="Entrer dans la struture" />]}>
-          <h1>{sctructure.name}</h1>
+        <CardWithImage imageSrc={structure.image} key={k} buttons={[<Button type="link" to={"/watapp/dashboard/" + structure.link} name="Entrer dans la struture" />]}>
+          <h1>{structure.name}</h1>
         </CardWithImage>
       </div>
     })

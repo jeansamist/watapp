@@ -51,7 +51,6 @@ export default class Protection extends Component {
           <Route path="/login">
             <Login isLogin={this.state.isLogin} />
           </Route>
-          {console.log("isLogin", this.state.isLogin)}
           <ProtectedRoute k={0} path="/structures" isLogin={this.state.isLogin} component={SelectStructure} />
           <ProtectedRoute k={1} path="/watapp/*/:structure" isLogin={this.state.isLogin} component={App} redirectUrl="../login" />
           <ProtectedRoute k={2} path="/" isLogin={this.state.isLogin} component={GoToStructure} />

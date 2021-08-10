@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 05 août 2021 à 18:59
--- Version du serveur : 10.4.20-MariaDB
--- Version de PHP : 8.0.8
+-- Généré le : mar. 10 août 2021 à 14:23
+-- Version du serveur :  10.4.13-MariaDB
+-- Version de PHP : 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `clients` (
-  `id` int(255) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
-  `sex` varchar(255) NOT NULL,
+  `mail` text NOT NULL,
   `date` int(255) NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,9 +39,8 @@ CREATE TABLE `clients` (
 -- Déchargement des données de la table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `lastname`, `sex`, `date`) VALUES
-(7, 'talom', 'landry', 'maxculin', 1628166040),
-(8, 'alfred', 'landry', 'maxculin', 1628166234);
+INSERT INTO `clients` (`id`, `name`, `lastname`, `mail`, `date`) VALUES
+(1, 'BAHA', 'Ephraïm', 'jeansamist@gmail.com', 1628508031);
 
 -- --------------------------------------------------------
 
@@ -62,39 +61,61 @@ CREATE TABLE `cookies` (
 --
 
 INSERT INTO `cookies` (`id`, `cookie_value`, `cookie_name`, `expire_time`, `token`) VALUES
-(1, '1', 'watapp_user', 1630663564, 'PjIbCvDAJaZhFskSgNNrvxpj12Fs15LYUZO7AhfhA1ySlHatVpcWxFgOck8tu16lezZKKc9xp21vpMtCgYTRNDtqNXs1ha9WtGSb'),
-(2, 'avc', 'test', 1628244391, 'bgpEn77GX4mTLk27mz6RTL7rc7i4Ed9Oy0KqANSJOLIHSiUyh4pJ4L1YVoUWCMQ5cc5o7wRRtAJqydep4uq9arhCekuB4DUK9942'),
-(3, '1', 'watapp_user', 1630664742, 'ENou9Cl8z2ki4aPjuiLKErSPFeaY2C0Dyx6NnudJJvfFfnnrlX3eDR6byyKwQLbded442xi4VcgtQAnYzuYgLKmHdsxPWKg4EDDT'),
-(4, '1', 'watapp_user', 1630664743, 'eI0ADdT5DJcd796j8D8XC6DOE7WUBCyUVvuhjDniF53m1WP6lhlc33Xe5PTGgpG5Ne2ay1m6u1nxC63oGkWhN5HLx4Tup1ywe2dS'),
-(5, '1', 'watapp_user', 1630664773, 'V6qv0yyQF4YXxbor2WT5Bd7gv8ERbKFX2r6DiXq9qWSxJvJ4gLoImP8QW9t3pa1EKHzmycoPvc7FCnuKZlhvEq1Brnx97guUZDvF'),
-(6, '1', 'watapp_user', 1630664780, '8mizAne3qUuAEhsB8lwWwWdmrHzSfaxGCNboEELqpm2Gehp6VW60UuypULQROvsWUSdE0wd1tpQix1ePNdYplcgdnAclPoiBtfwX'),
-(7, '1', 'watapp_user', 1630664897, 'e3T5qXIArSl3nR9zSudmUqus2EucAeWVfolSuZT1sPJmf9TZKqhOA4EdiD29HpdNKRlWFcoGUw3Lec1WxvAgbTKUzrqGfxT9pD0P'),
-(8, '1', 'watapp_user', 1628162506, 'qsShbsrNg8PF805grtIa87f5jrEDLQlXQwP8siHrCD4Kx2J2kc44qFzOsAaS9kRcl88K9OgM8CgWF9e0bDyR0TtcsWP6SHfQ7ViI'),
-(9, '1', 'watapp_user', 1628162512, 'Wu8yuE1lYiu6yA2lOt9T2DEI0kZruMjoitx1B31qhh1F15MAN6E0Hm3g6PmkqoJBb4oIiZ1jhxXS3XR70TMm3gJkEStxH8tCFHTn');
+(3, '2', 'watapp_user', 1628676026, 'xywqzdodjmtnqrjfodtevegjqgyyasdenawfhgtomdnqimytko'),
+(4, '6', 'watapp_user', 1628680707, 'pipapqlothdjsihtjhjuwsxbeqfncxcgsayeywxsvrlzmpland'),
+(5, '7', 'watapp_user', 1628683490, 'wjmztqyhfjbogaaxbswuyfieryzqpsdxomsrbtfirltbdpmmsh'),
+(6, '1', 'watapp_user', 1628683537, 'sjhvavwdaprfpvfrtgzhmrihbgicvbgltxrnjexclxwaolmzcu'),
+(7, '1', 'watapp_user', 1628684455, 'dfqykbmbmqtsmtbeneppbitkhodyqmfcregvelgwpyjvecysrq'),
+(8, '6', 'watapp_user', 1628684537, 'sckzyckqbndlodztipywaoeadbrmhhlxdzfrbmuapbwxylynnb');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `employer`
+-- Structure de la table `stocks`
 --
 
-CREATE TABLE `employer` (
-  `id` int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `generetedid` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `stocks` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `unitary_price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `structure` text NOT NULL,
+  `token` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `stocks`
+--
+
+INSERT INTO `stocks` (`id`, `name`, `unitary_price`, `quantity`, `structure`, `token`) VALUES
+(1, 'ArtDuino', 2000, 0, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', 'nG5m9Eh8owzHoCKBS7tSh8nVpr7vViahzDfyd1oNqZRlQedmIkZC1AnfGYz0y8f7Hlw7u31sh5s06NeZY1EM31dyR9GPkjAbJgT9'),
+(2, 'Main', 1500, 0, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', 'HLDfiB164ztAnqNdgaSbdE9FFoUzz7lYKtS0H272z1H9Asxacno9u7YACZsli2pazhcVonDn7cMnhfk0cx76m0Ybd2P8dTpe00pT'),
+(3, 'Jus', 2300, 34, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', 'Ysi4e9SzIwB2Mn3OstFu14dkb8vQeFKm3GaWOngv3Q7v04CoY9H9h3G6EiXOvRO6Je0zZJp61yyiVNt8tFV5TJQRA7pqhmStR790'),
+(4, 'Bier', 650, 345, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', 'iYXdkgeoX3mJcG2WNcYOJKEPLWYSK2w1TsAa9jp24qxMNU6zErRtq56PB7QSitxWbhOqtQHn0Z4T283b6gyYw74csJBS1GOz8eu7'),
+(5, 'ArtDuino', 3400, 10, 'glbwxdxbgpkvwudtmumeucilnvcpxhmuvlbnmorgcuplwipmzfvtrereeazixifvsqjoaxcrqynydxbaqhzgjhyuhosrulrjgktq', '0xixaVD31UtFHq2DgDwXLkPJUfZvs8aZsHheVOai4osIsguBtG2en2tyAjI0PovTyqFx3CpD3UciYHrVvsgTef7J7vTHuWERGuen'),
+(6, 'BAHA Ephraïm', 333, 34, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', '4d3Prbf5bq387X7kK6hYrE3WtpHjSfi2Oustz2Y616fpYDbPMn6v9f9KT4I3c1ygQJnYPcNHEen7VEUD33Jsp0u9rS8BXr22mZ3Y');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `structure`
+-- Structure de la table `structures`
 --
 
-CREATE TABLE `structure` (
-  `id` int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `generetedid` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `structures` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `localisation` text NOT NULL,
+  `workers` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `token` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `structures`
+--
+
+INSERT INTO `structures` (`id`, `name`, `localisation`, `workers`, `token`) VALUES
+(3, 'Structure de travail', 'Bonnamossadi', '[\"6\"]', 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno'),
+(4, 'Skysoft', 'Makepe', '[\"7\"]', 'glbwxdxbgpkvwudtmumeucilnvcpxhmuvlbnmorgcuplwipmzfvtrereeazixifvsqjoaxcrqynydxbaqhzgjhyuhosrulrjgktq');
 
 -- --------------------------------------------------------
 
@@ -107,16 +128,19 @@ CREATE TABLE `users` (
   `full_name` text NOT NULL,
   `pseudo` varchar(255) NOT NULL,
   `password` text NOT NULL,
-  `role` text NOT NULL DEFAULT 'worker',
-  `structures` text NOT NULL
+  `user_role` text NOT NULL DEFAULT '\'worker\'',
+  `structures` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '*'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `pseudo`, `password`, `role`, `structures`) VALUES
-(1, 'BAHA Ephraïm Jean-Samuel', 'admin', 'ec04321e2c7bf2e0b01bac41896796b19f22a244', 'admin', '*');
+INSERT INTO `users` (`id`, `full_name`, `pseudo`, `password`, `user_role`, `structures`) VALUES
+(1, 'BAHA Ephraïm Jean-Samuel', 'admin', 'ec04321e2c7bf2e0b01bac41896796b19f22a244', 'admin', '*'),
+(5, 'John Doe', 'john', '55c3b5386c486feb662a0785f340938f518d547f', 'admin', ''),
+(6, 'Alex Roi', 'alex', '55c3b5386c486feb662a0785f340938f518d547f', 'worker', '[\"gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno\"]'),
+(7, 'Max Thunderman', 'max', '55c3b5386c486feb662a0785f340938f518d547f', 'worker', '[\"glbwxdxbgpkvwudtmumeucilnvcpxhmuvlbnmorgcuplwipmzfvtrereeazixifvsqjoaxcrqynydxbaqhzgjhyuhosrulrjgktq\"]');
 
 --
 -- Index pour les tables déchargées
@@ -135,15 +159,15 @@ ALTER TABLE `cookies`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `employer`
+-- Index pour la table `stocks`
 --
-ALTER TABLE `employer`
+ALTER TABLE `stocks`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `structure`
+-- Index pour la table `structures`
 --
-ALTER TABLE `structure`
+ALTER TABLE `structures`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -160,31 +184,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `cookies`
 --
 ALTER TABLE `cookies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `employer`
+-- AUTO_INCREMENT pour la table `stocks`
 --
-ALTER TABLE `employer`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `stocks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT pour la table `structure`
+-- AUTO_INCREMENT pour la table `structures`
 --
-ALTER TABLE `structure`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `structures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -33,7 +33,7 @@ export class TableOpenModal extends Component {
       this.props.onClick(event)
       openModal(this.props.modalId)
     } catch (error) {
-      console.log(error);
+      // (error);
     }
   }
   render() {

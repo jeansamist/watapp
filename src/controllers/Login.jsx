@@ -51,7 +51,7 @@ export default class Login extends Component {
         body: `${toShare[0]}&${toShare[1]}`
       })
       .then((response) => {
-        console.log(response);
+        // (response);
         return response.json();
       })
       .then((result) => {

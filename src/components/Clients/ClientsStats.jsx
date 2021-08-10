@@ -31,7 +31,7 @@ export default class ClientsStats extends Component {
     })
     .then((result) => {
       if (result.response_data) {
-        console.log(result);
+        // (result);
         this.setState({ data: [
           {
             name: "Clients Totaux",
@@ -41,7 +41,7 @@ export default class ClientsStats extends Component {
           }
         ] });
       } else {
-        console.log(result.response_message);
+        // (result.response_message);
       }
     })
   }

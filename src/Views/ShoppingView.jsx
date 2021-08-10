@@ -64,7 +64,7 @@ export default class ShoppingView extends Component {
   }
 
   componentDidUpdate () {
-    console.log("Component's Update", this.state);
+    // ("Component's Update", this.state);
   }
 
   Tools () {
@@ -171,7 +171,7 @@ export default class ShoppingView extends Component {
    * A modifier lors de l'élaboration du backend
    */
   doSell () {
-    console.log("Sell");
+    // ("Sell");
   }
   render() {
     if (this.state.loading) {

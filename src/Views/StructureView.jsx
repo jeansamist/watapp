@@ -81,7 +81,7 @@ export default class StructureView extends Component {
    */
   createStructure () {
     let inputs = document.querySelectorAll('#modal-create-structure .input-field');
-    console.log(inputs);
+    // (inputs);
     let err = false;
     let toShare = [];
     for (let i = 0; i < inputs.length; i++) {
@@ -127,7 +127,7 @@ export default class StructureView extends Component {
           return response.json();
         })
         .then((result) => {
-          console.log(result);
+          // (result);
           if (result.response_data) {
             closeModal("modal-create-structure");
             reqLoad.forEach(load => {
@@ -158,7 +158,7 @@ export default class StructureView extends Component {
       return response.json();
     })
     .then((result) => {
-      console.log(result);
+      // (result);
       this.setState({
         workersList: result.response_data.map((worker, k) => {
           return {

@@ -20,7 +20,7 @@ import OptionsView from '../Views/OptionsView.jsx';
 
 class App extends React.Component {
   render () {
-    console.log(this.props);
+    // (this.props);
     return <Router>
       <div className="master">
         <Sidebar k={0} structure={this.props.match.params.structure} />
