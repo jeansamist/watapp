@@ -15,7 +15,7 @@ export default class Form extends Component {
     if (this.props.callback !== undefined) {
       this.props.callback(event)
     } else {
-      console.log('No callback');
+      // ('No callback');
     }
   }
   render() {

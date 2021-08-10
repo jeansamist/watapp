@@ -47,6 +47,13 @@
       }
     }
     public static function reqCookieData($cookie_data) {
-      
+      global $pdo;
+      $reqCookie = $pdo->prepare('SELECT cookie_value FROM cookies WHERE token = ?');
+      $reqCookie->execute([$cookie_data]);
+      if ($reqCookie->rowCount() == 1) {
+        return $reqCookie->fetch();
+      } else {
+        return false;
+      }
     } 
   }

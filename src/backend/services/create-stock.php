@@ -13,17 +13,28 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-      $name = htmlspecialchars($_POST['name']);
-      $unitary_price = htmlspecialchars($_POST['unitary_price']);
-      $generetedid = Random::random_string(100, 'medium');
-      $addStructure = $pdo->prepare('INSERT INTO stocks (name, unitary_price, quantity, token) VALUES (?, ?, ?, ?)');
-      $addStructure->execute([
-        $name,
-        $unitary_price,
-        0,
-        $generetedid
-      ]);
-      $toReturn = new ReqResponse(true);
+      $structure = htmlspecialchars($_POST['structure']);
+      $reqStructure = $pdo->prepare('SELECT token FROM structures WHERE token = ?');
+      $reqStructure->execute([$structure]);
+      if ($reqStructure->rowCount() == 1) {
+        $name = htmlspecialchars($_POST['name']);
+        $unitary_price = htmlspecialchars($_POST['unitary_price']);
+        $generetedid = Random::random_string(100, 'medium');
+        $tokenFetch = $reqStructure->fetch();
+        $token = $tokenFetch->token;
+        $createStock = $pdo->prepare('INSERT INTO stocks (name, unitary_price, quantity, structure, token) VALUES (?, ?, ?, ?, ?)');
+        $createStock->execute([
+          $name,
+          $unitary_price,
+          0,
+          $token,
+          $generetedid
+        ]);
+        $toReturn = new ReqResponse(true);
+      } else {
+        $err = false;
+        $toReturn = new ReqResponse($err, 'La structure est indefinie');
+      }
     } else {
       $err = false;
       $toReturn = new ReqResponse($err, 'Veiller complétez tous les champs');

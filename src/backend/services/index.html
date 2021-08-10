@@ -11,10 +11,17 @@
 <body>
     <h1>Creer un produit</h1>
     <form method="POST" action="increment-stock.php">
-        <input type="text" name="name" placeholder="nom">
-        <input type="number" name="prix" placeholder="prix unitaire">
-        <input type="number" name="stock" placeholder="Stock disponible">
-        <!-- <input type="text" name="generetedid"> -->
+        <select name="client" id="client">
+            <option value="">client1</option>
+            <option value="">client1</option>
+            <option value="">client1</option>
+        </select>
+        <select name="produit" id="produit" multiple>
+            <option value="">produit1</option>
+            <option value="">produit1</option>
+            <option value="">produit1</option>
+        </select>
+        <input type="number" name="quantities" id="quantities">
 
         <input type="submit" name="submit">
     </form>

@@ -12,7 +12,7 @@ export default class ProtectedRoute extends Component {
     try {
       this.setState({ isLogin: this.props.isLogin }); 
     } catch (error) {
-      console.log(error);
+      // (error);
     }
   }
   render() {

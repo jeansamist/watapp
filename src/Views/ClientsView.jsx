@@ -53,7 +53,7 @@ export default class ShoppingView extends Component {
       return response.json();
     })
     .then((result) => {
-      console.log(result);
+      // (result);
       this.setState({
         tableclients: {
           tableTitle: createKey(),
@@ -200,7 +200,7 @@ export default class ShoppingView extends Component {
             return response.json();
           })
           .then((result) => {
-            console.log(result);
+            // (result);
             this.setState({
               tableclients: {
                 tableTitle: createKey(),
@@ -220,7 +220,7 @@ export default class ShoppingView extends Component {
             })
           })
         } else {
-          // console.log(response);
+          // // (response);
           this.setState({ addClientAlert: result.response_message });
           reqLoad.forEach(load => {
             load.classList.remove('active')

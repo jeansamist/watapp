@@ -4,6 +4,21 @@
   require "../config/bd.php";
   Autoloader::register(); 
 
-  $reqstock = $pdo->query("SELECT * FROM stocks WHERE quantity > 0 ORDER BY id DESC");
-  $stock = $reqstock->fetchAll();
-  echo json_encode(new ReqResponse($stock));
+  $structure = htmlspecialchars($_GET['structure']);
+  $reqStructure = $pdo->prepare('SELECT token FROM structures WHERE token = ?');
+  $reqStructure->execute([$structure]);
+  if ($reqStructure->rowCount() == 1) {
+    $tokenFetch = $reqStructure->fetch();
+    $token = $tokenFetch->token;
+    $reqstock = $pdo->prepare("SELECT * FROM stocks WHERE quantity > 0 AND structure = ? ORDER BY id DESC");
+    $reqstock->execute([$token]);
+    if ($reqstock->rowCount() > 0) {
+      $stock = $reqstock->fetchAll();
+      echo json_encode(new ReqResponse($stock));
+    } else {
+      echo json_encode(new ReqResponse(false, "Désolé votre inventaire est vide :("));
+    }
+  } else {
+    echo json_encode(new ReqResponse(false, "Désolé votre inventaire est vide :("));
+  }
+  

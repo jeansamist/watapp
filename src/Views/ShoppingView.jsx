@@ -64,7 +64,7 @@ export default class ShoppingView extends Component {
   }
 
   componentDidUpdate () {
-    console.log("Component's Update", this.state);
+    // ("Component's Update", this.state);
   }
 
   Tools () {
@@ -171,7 +171,7 @@ export default class ShoppingView extends Component {
    * A modifier lors de l'élaboration du backend
    */
   doSell () {
-    console.log("Sell");
+    // ("Sell");
   }
   render() {
     if (this.state.loading) {
@@ -204,7 +204,7 @@ export default class ShoppingView extends Component {
               </div>
             </section>
             <section>
-              <TitleToolsBar title="Inventaire des Stock récents">
+              <TitleToolsBar title="Liste des dernières ventes">
                 <this.Tools />
               </TitleToolsBar>
               <TableOpenModal

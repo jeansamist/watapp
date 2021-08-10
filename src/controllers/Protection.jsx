@@ -36,11 +36,11 @@ export default class Protection extends Component {
           this.setState({isLogin: result.response_data, isLoading: true})
         })
       } else {
-        this.setState({isLogin: true, isLoading: true })
+        this.setState({isLogin: false, isLoading: true })
       }
       
     } catch (error) {
-      this.setState({isLogin: true, isLoading: true })
+      this.setState({isLogin: false, isLoading: true })
     }
   }
   
@@ -51,7 +51,6 @@ export default class Protection extends Component {
           <Route path="/login">
             <Login isLogin={this.state.isLogin} />
           </Route>
-          {console.log("isLogin", this.state.isLogin)}
           <ProtectedRoute k={0} path="/structures" isLogin={this.state.isLogin} component={SelectStructure} />
           <ProtectedRoute k={1} path="/watapp/*/:structure" isLogin={this.state.isLogin} component={App} redirectUrl="../login" />
           <ProtectedRoute k={2} path="/" isLogin={this.state.isLogin} component={GoToStructure} />
