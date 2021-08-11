@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { CardWithImage } from '../components/Cards'
 import { Button } from '../components/Forms/Buttons'
-import { createKey } from '../config/functions'
 import structureImageDefault from './../assets/images/app/structures/default.jpg'
 import * as Config from "./../config/Variables"
 
@@ -16,11 +15,19 @@ export default class SelectStructure extends Component {
           name: "Loading...",
           link: "#no"
         },
-      ]
+      ],
+      link: "stock"
     }
   }
 
-  componentDidMount () {
+  componentDidMount () {  
+    fetch(`${Config.server}services/isAdmin.php?token=${localStorage.getItem("watapp_user")}`)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.response_data) {
+        this.setState({ link: "dashboard" })
+      }
+    })
     fetch(`${Config.server}services/select_structure.php?cookie_token=${localStorage.getItem("watapp_user")}`)
     .then((response) => {
       return response.json();
@@ -44,7 +51,7 @@ export default class SelectStructure extends Component {
   build () {
     return this.state.structures.map((structure, k) => {
       return <div className="s col-sm-4 mb-4" key={k}>
-        <CardWithImage imageSrc={structure.image} key={k} buttons={[<Button type="link" to={"/watapp/dashboard/" + structure.link} name="Entrer dans la struture" />]}>
+        <CardWithImage imageSrc={structure.image} key={k} buttons={[<Button type="link" to={"/watapp/" + this.state.link + "/" + structure.link} name="Entrer dans la struture" />]}>
           <h1>{structure.name}</h1>
         </CardWithImage>
       </div>

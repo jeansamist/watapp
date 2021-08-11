@@ -5,12 +5,24 @@ import * as Config from "./Variables"
  * @param { Number } lenght Nombres de caractères de la clé
  * @returns { String }
  */
-export const createKey = (lenght = 10) => {
-  let symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789a"
+export const createKey = (lenght = 10, type = 'text', form = false) => {
+  let symbols;
+  if (type === "text") {
+    symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa"
+  } else if (type === undefined || type === null) {
+    symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789a"
+  } else {
+    symbols = "0123456789";
+  }
   let key = "";
   for (let i = 0; i < lenght; i++) {
     const element = symbols[Math.round(Math.random() * (symbols.length - 1))];
     key = key + element
+  }
+  if (form === "upper") {
+    return key.toUpperCase()
+  } else if (form === "lower") {
+    return key.toLowerCase()
   }
   return key
 }

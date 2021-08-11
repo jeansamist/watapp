@@ -5,6 +5,7 @@ import { HouseDoorFill, Box, BagFill, Building, PeopleFill, GearFill } from 'rea
 import {
   Link
 } from "react-router-dom";
+import * as Config from "./../config/Variables"
 class SidebarLink extends Component {
   render() {
     return (
@@ -44,36 +45,64 @@ export default class Sidebar extends Component {
     return this.state.links.map((link, k) => <SidebarLink k={k} key={k} href={link.href} ico={link.ico} name={link.name} />);
   }
   componentDidMount () {
-    this.setState({links : [{
-      name: "Dashboard",
-      ico: <HouseDoorFill />,
-      href: "/watapp/dashboard/" + this.props.structure
-    },
-    {
-      name: "Stock",
-      ico: <Box />,
-      href: "/watapp/stock/" + this.props.structure
-    },
-    {
-      name: "Commerce",
-      ico: <BagFill />,
-      href: "/watapp/shopping/" + this.props.structure
-    },
-    {
-      name: "Structures",
-      ico: <Building />,
-      href: "/watapp/structures/" + this.props.structure
-    },
-    {
-      name: "Clients",
-      ico: <PeopleFill />,
-      href: "/watapp/clients/" + this.props.structure
-    },
-    {
-      name: "Parametres",
-      ico: <GearFill />,
-      href: "/watapp/options/" + this.props.structure
-    }]})
+    fetch(`${Config.server}services/isAdmin.php?token=${localStorage.getItem("watapp_user")}`)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.response_data) {
+        this.setState({links : [{
+          name: "Dashboard",
+          ico: <HouseDoorFill />,
+          href: "/watapp/dashboard/" + this.props.structure
+        },
+        {
+          name: "Stock",
+          ico: <Box />,
+          href: "/watapp/stock/" + this.props.structure
+        },
+        {
+          name: "Commerce",
+          ico: <BagFill />,
+          href: "/watapp/shopping/" + this.props.structure
+        },
+        {
+          name: "Structures",
+          ico: <Building />,
+          href: "/watapp/structures/" + this.props.structure
+        },
+        {
+          name: "Clients",
+          ico: <PeopleFill />,
+          href: "/watapp/clients/" + this.props.structure
+        },
+        {
+          name: "Parametres",
+          ico: <GearFill />,
+          href: "/watapp/options/" + this.props.structure
+        }]})
+      } else {
+        this.setState({links : [
+        {
+          name: "Stock",
+          ico: <Box />,
+          href: "/watapp/stock/" + this.props.structure
+        },
+        {
+          name: "Commerce",
+          ico: <BagFill />,
+          href: "/watapp/shopping/" + this.props.structure
+        },
+        {
+          name: "Clients",
+          ico: <PeopleFill />,
+          href: "/watapp/clients/" + this.props.structure
+        },
+        {
+          name: "Parametres",
+          ico: <GearFill />,
+          href: "/watapp/options/" + this.props.structure
+        }]})
+      }
+    })
     let sidebar = document.querySelector('.sidebar')
     let toggler = sidebar.querySelector('.toggler')
     toggler.addEventListener('click', () => sidebar.classList.toggle('active'))

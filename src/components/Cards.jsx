@@ -27,7 +27,7 @@ export class Card extends Component {
 export class CardSimple extends Component {
   render() {
     return (
-      <div className="card-simple">
+      <div className={this.props.className ? "card-simple " + this.props.className : "card-simple"}>
         {this.props.children}
       </div>
     )
@@ -87,8 +87,14 @@ export class CardBoxForm extends Component {
 export class CardUser extends Component {
   render() {
     return (
-      <div>
-        Card User
+      <div className="usercard c flex card-simple">
+        <div className="avatar">
+          <img src={this.props.avatar} alt="" />
+        </div>
+        <div className="text">
+          <h3>{this.props.userName}</h3>
+          <i>Worker</i>
+        </div>
       </div>
     )
   }

@@ -1,2 +1,7 @@
 <?php
-  echo sha1(md5(htmlspecialchars('password')));
+  require "../config/headers.php";
+  require "../config/classes/Autoloader.php";
+  require "../config/bd.php";
+  Autoloader::register(); 
+
+  echo Random::matricule();

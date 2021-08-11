@@ -36,4 +36,10 @@ class Random {
     }
     return $toReturn;
   }
+  public static function matricule() {
+    $first = self::random_string(3);
+    $two = self::random_string(1);
+    $tree = self::random_string(3);
+    return $first . $two . $tree;
+  }
 }
