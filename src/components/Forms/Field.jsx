@@ -6,6 +6,9 @@ class Field extends react.Component {
     }
     handdleChange (event) {
         let newValue = event.target.value;
+        if (this.props.onChange) {
+            this.props.onChange(event, newValue);
+        }
         this.setState({value: newValue});
     }
     render () {
