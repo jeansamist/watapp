@@ -55,35 +55,6 @@ export default class OptionsView extends Component {
                 </CardSimple>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xl-5 col-md-6 col-sm-12">
-                <CardSimple>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore modi corrupti cum eum laborum eaque magnam ex, est, architecto voluptatibus dolorum enim eveniet et, nostrum ipsum ad culpa voluptatem nihil.
-                </CardSimple>
-              </div>
-              <div className="col-xl-7 col-md-6 col-sm-12">
-                <CardSimple>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore modi corrupti cum eum laborum eaque magnam ex, est, architecto voluptatibus dolorum enim eveniet et, nostrum ipsum ad culpa voluptatem nihil.
-                </CardSimple>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xl-4 col-md-6 col-sm-12">
-                <CardSimple>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore modi corrupti cum eum laborum eaque magnam ex, est, architecto voluptatibus dolorum enim eveniet et, nostrum ipsum ad culpa voluptatem nihil.
-                </CardSimple>
-              </div>
-              <div className="col-xl-4 col-md-6 col-sm-12">
-                <CardSimple>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore modi corrupti cum eum laborum eaque magnam ex, est, architecto voluptatibus dolorum enim eveniet et, nostrum ipsum ad culpa voluptatem nihil.
-                </CardSimple>
-              </div>
-              <div className="col-xl-4 col-md-6 col-sm-12">
-                <CardSimple>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore modi corrupti cum eum laborum eaque magnam ex, est, architecto voluptatibus dolorum enim eveniet et, nostrum ipsum ad culpa voluptatem nihil.
-                </CardSimple>
-              </div>
-            </div>
           </div>
         </div>
       )
