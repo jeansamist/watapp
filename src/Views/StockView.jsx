@@ -31,14 +31,16 @@ export default class StockView extends Component {
           }
         ]
       },
-      productToView: "",
+      productToView: false,
       stockSelect: [
         { value:"hjk", label:"hjdqsdq" }
       ],
       stockToIncrement: [],
       stocks: [],
-      stocksList: []
+      stocksList: [],
+      d: {}
     }
+    this.timer = null
     this.ModalViewProduct = this.ModalViewProduct.bind(this)
     this.modalData = this.modalData.bind(this)
     this.ModalIncrement = this.ModalIncrement.bind(this)
@@ -116,15 +118,27 @@ export default class StockView extends Component {
   modalData() {
     let productToView = this.state.productToView
       if (productToView !== "") {
-        return productToView;
+        fetch(`${Config.server}services/create-stock.php`)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result)
+        })
     } else {
       return "no productToView"
     }
   }
 
   ModalViewProduct () {
+    let token = this.state.productToView;
+    // let data;
+    fetch(`${Config.server}services/see_stock.php?stock_token=${token}`)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result)
+      console.log(this.state);
+    })
     return <Modal title="Voir un produit" id="modal-view-product">
-      {this.modalData()}
+      {this.state.productToView}
     </Modal>
   }
 
@@ -193,6 +207,9 @@ export default class StockView extends Component {
         }
       })
     }
+  }
+  onClose () {
+    this.setState({ productToView: false })
   }
   ModalCreateStock () {
     return <ModalForm title="Créer un stock" id="modal-stock-create" onSubmit={this.createStock} buttons={[<Button type="submit" name="Créer" />]}>
@@ -343,11 +360,11 @@ export default class StockView extends Component {
                 <ButtonOpenModal name="Incrément un stock" modalId="modal-stock-increment" />
                 <ButtonOpenModal name="Créer un stock" modalId="modal-stock-create" />
               </TitleToolsBar>
-              <TableOpenModal modalId="modal-view-product" onClick={this.handdleTableViewProductClick.bind(this)} tdata={this.state.tableProducts}/>
+              <TableOpenModal modalId="modal-view-product" onClick={this.handdleTableViewProductClick.bind(this)} onClose={this.onClose.bind(this)} tdata={this.state.tableProducts}/>
             </section>
           </div>
           <div className="modals">
-            <this.ModalViewProduct />
+            { this.state.productToView ? <this.ModalViewProduct /> : "" }
             <this.ModalIncrement />
             <this.ModalCreateStock />
           </div>

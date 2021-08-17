@@ -4,7 +4,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import { CardWithImage } from '../components/Cards.jsx';
 import Loader from '../components/Loader.jsx';
-import { createKey, closeModal } from '../config/functions.js';
+import { closeModal } from '../config/functions.js';
 import Topbar from "./../components/Topbar.jsx";
 import structureImageDefault from './../assets/images/app/structures/default.jpg'
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
