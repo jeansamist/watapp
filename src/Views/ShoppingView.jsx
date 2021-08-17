@@ -9,21 +9,25 @@ import TitleToolsBar from '../components/TitleToolsBar.jsx';
 import Field from '../components/Forms/Field.jsx';
 import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
-import { CardWithoutFooter } from '../components/Cards.jsx';
+import { CardWithoutFooter, CardSimple } from '../components/Cards.jsx';
 import { ChartLine } from '../components/Chart.jsx';
 import { TableOpenModal } from '../components/Tables.jsx';
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import { Modal, ModalForm } from '../components/Modals.jsx';
-import { createKey, random } from '../config/functions.js';
+import { createKey, openModal, random } from '../config/functions.js';
+import * as Config from "./../config/Variables"
 
 export default class ShoppingView extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      sellAlert: false,
       loading: false,
       structure: this.props.match.params.structure,
       productsToSell: [],
       articles: [],
+      clients: [],
+      currentStocks: [],
       /*
         Liste des éléments di tablau
         A modifier lors de l'élaboration du backend
@@ -50,17 +54,53 @@ export default class ShoppingView extends Component {
           }
         ]
       },
-      clientId: createKey(),
-      sellToView: ""
+      clientId: null,
+      sellToView: "",
+      totality: 0
     }
     this.ModalViewSell = this.ModalViewSell.bind(this)
     this.ModalDoSell = this.ModalDoSell.bind(this)
+    this.ModalConfirm = this.ModalConfirm.bind(this)
+    this.doSell = this.doSell.bind(this)
+    this.confirmSell = this.confirmSell.bind(this)
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({ loading: true })
-    }, 1000);
+    fetch(`${Config.server}services/req_clients.php`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      // (result);
+      this.setState({
+        clients: result.response_data.map((client) => {
+          return {
+            value: client.id,
+            label: client.lastname + " " + client.name,
+          }
+        })
+      })
+    })
+    fetch(`${Config.server}services/req_current_stock.php?structure=${this.state.structure}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      // (result);
+      if (result.response_data) {
+        this.setState({
+          loading: true,
+          currentStocks: result.response_data.map((stock) => {
+            return {
+              value: stock.token,
+              label: `${stock.name} "${stock.unitary_price} FCFA"`,
+              price: stock.unitary_price,
+              currentQty: stock.quantity
+            }
+          }),
+        })
+      }
+    })
   }
 
   componentDidUpdate () {
@@ -114,7 +154,7 @@ export default class ShoppingView extends Component {
       this.setState({
         productsToSell: newValue,
         articles: newValue.map((val, k) => {
-          let obj = {articleId: val.value, articleQty: 0, articlePrice: val.price}
+          let obj = {articleId: val.value, currentQty: val.currentQty, articlePrice: val.price}
           return obj;
         }),
       })
@@ -132,11 +172,7 @@ export default class ShoppingView extends Component {
             className="select"
             onChange={selectClientshandleChange}
             name="colors"
-            options={[
-              { value: 'chocolate', label: 'Chocolate', price: 200 },
-              { value: 'strawberry', label: 'Strawberry', price: 200 },
-              { value: 'vanilla', label: 'Vanilla', price: 200 }
-            ]}
+            options={this.state.clients}
           />
         </div>
         <div className="field col-md-6 col-12">
@@ -147,11 +183,7 @@ export default class ShoppingView extends Component {
             className="select"
             onChange={selectProductshandleChange}
             name="colors"
-            options={[
-              { value: 'chocolate', label: 'Chocolate', price: 200 },
-              { value: 'strawberry', label: 'Strawberry', price: 200 },
-              { value: 'vanilla', label: 'Vanilla', price: 200 }
-            ]}
+            options={this.state.currentStocks}
           />
         </div>
       </div>
@@ -159,11 +191,33 @@ export default class ShoppingView extends Component {
         {this.state.productsToSell.map((product, k) => {
 
           return <div className="col-xl-6 col-12">
-            <Field type="number" label={"Quantité de " + product.label} />
+            <Field type="number" max={product.currentQty} label={"Quantité de " + product.label + " x" + product.currentQty} />
           </div>
         })}
       </div>
+      {
+        this.state.sellAlert ? <div className="error">{this.state.addClientAlert}</div> : ""
+      }
     </ModalForm>
+  }
+
+  ModalConfirm () {
+    return <Modal id="modal-confirm-sell" closeLabel="Annuler" buttons={[<Button type="button" onClick={this.doSell} name="Valider" />]}>
+      Voulez vous faire une vente de {this.state.totality}FCFA ?
+    </Modal>
+  }
+
+  confirmSell () {
+    let inputs = document.querySelectorAll("#modal-sell .input-field")
+    let tt = 0;
+    for (let i = 0; i < inputs.length; i++) {
+      const inputVal = inputs[i].value;
+      const price = this.state.productsToSell[i].articlePrice
+      let t = inputVal * price
+      tt += t;
+    }
+    this.setState({totality: tt})
+    openModal("modal-confirm-sell")
   }
 
   /**
@@ -171,7 +225,43 @@ export default class ShoppingView extends Component {
    * A modifier lors de l'élaboration du backend
    */
   doSell () {
-    // ("Sell");
+    let inputs = document.querySelectorAll("#modal-sell .input-field")
+    let qties = [];
+    let articles = [];
+    let err = false
+    for (let i = 0; i < inputs.length; i++) {
+      const inputVal = inputs[i].value;
+      if (inputVal !== "") {
+        qties.push(inputVal)
+        const article = this.state.productsToSell[i].value
+        articles.push(article)
+      } else {
+        err = true;
+        this.setState({ sellAlert: "Veuiller completer tous les champs" });
+        break
+      }
+    }
+    if (!err) {
+      let qtiesToSend = JSON.stringify(qties);
+      let articlesToSend = JSON.stringify(articles);
+      let data = new FormData();
+      data.append('qties', qtiesToSend);
+      data.append('articles', articlesToSend);
+      if (this.state.clientId !== null) {
+        data.append('client_id', this.state.clientId);
+      }
+      fetch(`${Config.server}services/add-sell.php?userCookieToken=${localStorage.getItem('watapp_user')}`, {
+        method: "POST",
+        body: data,
+        mode: "cors"
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+      })
+    } else {
+
+    }
   }
   render() {
     if (this.state.loading) {
@@ -215,6 +305,7 @@ export default class ShoppingView extends Component {
             </section>
           </div>
           <div className="modals">
+            <this.ModalConfirm />
             <this.ModalViewSell />
             <this.ModalDoSell />
           </div>

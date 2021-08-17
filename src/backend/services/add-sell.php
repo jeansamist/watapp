@@ -13,28 +13,21 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-      $clientName =  htmlspecialchars($_POST['clientName']);
-      $productName =  htmlspecialchars($_POST['productName']);
-      foreach ($productName as $value) {
-        $value = (int) $value;
-        $getProductIdReq = $pdo->prepare('SELECT id FROM stocks WHERE name = ?');
-        $getProductIdReq->execute([$value]);
-        $fetch = $getProductIdReq->fetch();
+      if (isset($_GET['userCookieToken'])) {
+        $reqUserId = $pdo->prepare('SELECT cookie_value FROM cookies WHERE token = ?');
+        $reqUserId->execute([$_GET['userCookieToken']]);
+        if ($reqUserId->rowCount() === 1) {
+          $userId = $reqUserId->fetch()->cookie_value;
+          $qties = json_decode($_POST['qties']);
+          $articles = json_decode($_POST['articles']);
+          foreach ($articles as $key => $articleToken) {
+            $reqArticle = $pdo->prepare("SELECT price, qty FROM stock WHERE token = ?");
+            $reqUserId->execute([$articleToken]);
+            $article = $reqArticle->fetch();
+          }
+        }
       }
-      var_dump($value);
-      die();
-
-      $quantity =  htmlspecialchars($_POST['quantity']);
-      $addSell = $pdo->prepare('INSERT INTO sells (item, quantity, client) VALUES (?, ?, ?)');
-      $addSell->execute([
-        $clientName,
-        json_encode($productName),
-        $quantity
-      ]);
-      if ($addSell === false) {
-          $error = false;
-          $err = 'Une erreur est survenu pendant le traitement';
-      }
+      
     }
 } else {
   $err = false;

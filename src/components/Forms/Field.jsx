@@ -14,7 +14,24 @@ class Field extends react.Component {
         if (this.props.onChange) {
             this.props.onChange(event, newValue);
         }
-        this.setState({value: newValue});
+        if (this.props.type === "number") {
+            if (this.props.max) {
+                if (newValue !== "") {
+                    let val = parseFloat(newValue);
+                    if (val <= this.props.max) {
+                        this.setState({value: newValue});
+                    } else {
+                        this.setState({value: this.props.max});
+                    }
+                } else {
+                    this.setState({value: newValue});
+                }
+            } else {
+                this.setState({value: newValue});
+            }
+        } else {
+            this.setState({value: newValue});
+        }
     }
     render () {
         return <div className="field">
