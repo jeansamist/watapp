@@ -3,15 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
-<<<<<<< HEAD
--- Généré le : ven. 06 août 2021 à 19:49
--- Version du serveur : 10.4.20-MariaDB
--- Version de PHP : 8.0.8
-=======
--- Généré le : mar. 10 août 2021 à 14:23
--- Version du serveur :  10.4.13-MariaDB
--- Version de PHP : 7.4.8
->>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,12 +29,9 @@ CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
-<<<<<<< HEAD
   `sex` varchar(255) NOT NULL,
   `about` varchar(255) NOT NULL,
-=======
   `mail` text NOT NULL,
->>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
   `date` int(255) NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -50,15 +39,13 @@ CREATE TABLE `clients` (
 -- Déchargement des données de la table `clients`
 --
 
-<<<<<<< HEAD
 INSERT INTO `clients` (`id`, `name`, `lastname`, `sex`, `about`, `date`) VALUES
 (7, 'talom', 'landry', 'maxculin', '', 1628166040),
 (8, 'alfred', 'landry', 'maxculin', '', 1628166234),
 (9, 'Skysoft', 'landry', 'maxculin', 'C\'est l\'employer du moi.', 1628247027);
-=======
+
 INSERT INTO `clients` (`id`, `name`, `lastname`, `mail`, `date`) VALUES
 (1, 'BAHA', 'Ephraïm', 'jeansamist@gmail.com', 1628508031);
->>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
 
 -- --------------------------------------------------------
 
@@ -113,6 +100,19 @@ INSERT INTO `stocks` (`id`, `name`, `unitary_price`, `quantity`, `structure`, `t
 (5, 'ArtDuino', 3400, 10, 'glbwxdxbgpkvwudtmumeucilnvcpxhmuvlbnmorgcuplwipmzfvtrereeazixifvsqjoaxcrqynydxbaqhzgjhyuhosrulrjgktq', '0xixaVD31UtFHq2DgDwXLkPJUfZvs8aZsHheVOai4osIsguBtG2en2tyAjI0PovTyqFx3CpD3UciYHrVvsgTef7J7vTHuWERGuen'),
 (6, 'BAHA Ephraïm', 333, 34, 'gnmowljqpxejpwxacgvtilkaraehoqzduwknyqmlunqdygmknbxrambkimqumrjmpumhichnhguymsuvthubdnhbmdatmyzimnno', '4d3Prbf5bq387X7kK6hYrE3WtpHjSfi2Oustz2Y616fpYDbPMn6v9f9KT4I3c1ygQJnYPcNHEen7VEUD33Jsp0u9rS8BXr22mZ3Y');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stocks`
+--
+
+CREATE TABLE `employer` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `generetedid` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 --
 -- Déchargement des données de la table `employer`
 --
@@ -150,13 +150,13 @@ INSERT INTO `produits` (`id`, `name`, `unitaryprice`, `generetedid`, `stocknumbe
 -- Structure de la table `structures`
 --
 
-<<<<<<< HEAD
-CREATE TABLE `structure` (
-  `id` int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `place` varchar(255) NOT NULL,
-  `generetedid` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- <<<<<<< HEAD
+-- CREATE TABLE `structure` (
+--   `id` int(255) NOT NULL,
+--   `name` varchar(255) NOT NULL,
+--   `place` varchar(255) NOT NULL,
+--   `generetedid` varchar(255) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 =======
 CREATE TABLE `structures` (
   `id` int(11) NOT NULL,
@@ -179,8 +179,8 @@ INSERT INTO `structures` (`id`, `name`, `localisation`, `workers`, `token`) VALU
 -- Déchargement des données de la table `structure`
 --
 
-INSERT INTO `structure` (`id`, `name`, `place`, `generetedid`) VALUES
-(20, 'Skysoft', 'Bependa', 'nNIDnofNaF');
+-- INSERT INTO `structure` (`id`, `name`, `place`, `generetedid`) VALUES
+-- (20, 'Skysoft', 'Bependa', 'nNIDnofNaF');
 
 -- --------------------------------------------------------
 
@@ -230,7 +230,6 @@ ALTER TABLE `stocks`
   ADD PRIMARY KEY (`id`);
 
 --
-<<<<<<< HEAD
 -- Index pour la table `produits`
 --
 ALTER TABLE `produits`
@@ -238,7 +237,6 @@ ALTER TABLE `produits`
 
 --
 -- Index pour la table `structure`
-=======
 -- Index pour la table `structures`
 >>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
 --
@@ -259,9 +257,6 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-<<<<<<< HEAD
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-=======
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 >>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
 
@@ -274,30 +269,14 @@ ALTER TABLE `cookies`
 --
 -- AUTO_INCREMENT pour la table `stocks`
 --
-<<<<<<< HEAD
-ALTER TABLE `employer`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT pour la table `produits`
---
-ALTER TABLE `produits`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-=======
 ALTER TABLE `stocks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
->>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
 
 --
 -- AUTO_INCREMENT pour la table `structures`
 --
-<<<<<<< HEAD
-ALTER TABLE `structure`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-=======
 ALTER TABLE `structures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
->>>>>>> ae4d568e11a883cbf892c21ef8ff8eb7a5c7e6a2
 
 --
 -- AUTO_INCREMENT pour la table `users`
