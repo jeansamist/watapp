@@ -12,19 +12,32 @@ if (isset($_GET['cookie_token'])) {
     $reqStructuresOfUser->execute([$userId]);
     if ($reqStructuresOfUser->rowCount() == 1) {
       $fetch = $reqStructuresOfUser->fetch();
-      if ($fetch->structures !== "" AND $fetch->structures !== "*" AND $fetch->structures !== "null") {
-        $structures = json_decode($fetch->structures);
-        $to = [];
-        foreach ($structures as $value) {
-          $reqStructure = $pdo->prepare('SELECT * FROM structures WHERE token = ?');
-          $reqStructure->execute([$value]);
-          $ftch = $reqStructure->fetch();
-          array_push($to, $ftch);
+      $req = $pdo->query('SELECT * FROM structures');
+      if ($req) {
+        if ($req->rowCount() > 0) {
+          if ($fetch->structures !== "" AND $fetch->structures !== "*" AND $fetch->structures !== "null") {
+            $structures = json_decode($fetch->structures);
+            $to = [];
+            foreach ($structures as $value) {
+              $reqStructure = $pdo->prepare('SELECT * FROM structures WHERE token = ?');
+              $reqStructure->execute([$value]);
+              $ftch = $reqStructure->fetch();
+              array_push($to, $ftch);
+            }
+            $toReturn = new ReqResponse($to);
+          } else {
+            $reqStructure = $pdo->query('SELECT * FROM structures');
+            if ($reqStructure !== false) {
+              $toReturn = new ReqResponse($reqStructure->fetchAll());
+            } else {
+              $toReturn = new ReqResponse(false, "Aucune structure trouver");
+            }
+          }
+        } else {
+          $toReturn = new ReqResponse(false, "Nous n'arrivons pas retouver les structures");
         }
-        $toReturn = new ReqResponse($to);
       } else {
-        $reqStructure = $pdo->query('SELECT * FROM structures');
-        $toReturn = new ReqResponse($reqStructure->fetchAll());
+        $toReturn = new ReqResponse(false, "Nous n'arrivons pas retouver les structures");
       }
     } else {
       $toReturn = new ReqResponse(false, "Nous n'arrivons pas retouver les structures");

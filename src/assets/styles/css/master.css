@@ -139,13 +139,11 @@ a {
   background: var(--background-opact);
   display: flex;
 }
-
 ::-webkit-scrollbar {
   width: 7px;
   background: transparent;
   border-radius: 20px;
 }
-
 ::-webkit-scrollbar-thumb {
   width: 7px;
   border-radius: 20px;
@@ -177,12 +175,14 @@ a {
   display: flex;
   transform: translateX(50%) translateY(-50%);
 }
+
 .sidebar .toggler::before {
   content: "";
   width: 20px !important;
   height: 40px !important;
   background: rgb(255, 255, 255);
 }
+
 .sidebar > .sidebar-brand {
   display: flex;
   align-items: center;
@@ -208,6 +208,7 @@ a {
 .sidebar > .sidebar-brand > .sidebar-brand-logo {
   width: 30px;
 }
+
 .sidebar > .sidebar-brand > .sidebar-brand-menu-btn {
   font-size: 20px;
   color: var(--feldgrau);
@@ -238,6 +239,7 @@ a {
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   position: relative;
 }
+
 .sidebar > .sidebar-links > .sidebar-link::after {
   content: "";
   position: absolute;
@@ -249,6 +251,7 @@ a {
   bottom: 0;
   border-radius: 10px;
 }
+
 .sidebar > .sidebar-links > .sidebar-link:hover {
   color: var(--primary);
   background: var(--primary-opact);
@@ -292,6 +295,7 @@ a {
 .sidebar > .sidebar-user > .user-infos {
   width: calc(95% - 40px);
 }
+
 .sidebar > .sidebar-user > .user-infos > div {
   font-size: 14px;
   color: var(--color-light);
@@ -305,8 +309,6 @@ a {
   padding-bottom: none;
   position: relative;
 }
-
-
 
 .topbar {
   width: 100%;
@@ -376,8 +378,6 @@ a {
   box-shadow: 0 1px 4px var(--shadow);
 }
 
-
-
 .row {
   margin: 0 !important;
 }
@@ -442,8 +442,6 @@ section {
   margin-top: 1.5em;
 }
 
-
-
 .jumbotron {
   width: 100%;
   background: url('../../images/app/backgrounds/bg1-blur.jpg') no-repeat center / cover;
@@ -467,10 +465,7 @@ section {
 .jumbotron > .inner::first-line {
   font-size: 25px;
   font-weight: bold;
-}
-
-
-.login-view {
+}.login-view {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -541,9 +536,11 @@ section {
   overflow: hidden;
   overflow-x: auto;
 }
+
 .modal-box {
   position: relative;
 }
+
 .modal-box .card  {
   overflow-y: auto;
   overflow-x: hidden;
@@ -566,6 +563,7 @@ section {
   justify-content: center;
   background: var(--primary-opact);
 }
+
 .card-simple {
   width: 100%;
   padding: 1em;
@@ -574,10 +572,7 @@ section {
   border-radius: 5px;
   border: 1px solid var(--border);
   overflow: hidden;
-}
-
-
-.login-view > .login-card {
+}.login-view > .login-card {
   max-width: 400px;
   width: 100%;
 }
@@ -597,10 +592,11 @@ section {
 }
 
 .card > .card-head > h1,
+
 .card > .card-head > .title {
   min-width: 200px;
   overflow: hidden;
-  width: 50%;
+  /* width: 50%; */
   font-size: 25px;
 }
 
@@ -681,6 +677,7 @@ table > tbody > tr:nth-child(even) {
   background-color: var(--card-footer);
   /* box-shadow: inset 0px 1px 4px var(--shadow); */
 }
+
 table > tbody > tr:hover{
   background-color: var(--card-footer);
   color: var(--primary);
@@ -746,10 +743,12 @@ td:first-child {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
+
 .modal-bg > .modal-box {
   transform: translateY(-20px);
   transition: transform 0.5s ease-in-out;
 }
+
 .modal-bg.active {
   visibility: visible;
   opacity: 1;
@@ -776,6 +775,7 @@ td:first-child {
 .modal-bg.active > .modal-box > div {
   height: 100%;
 }
+
 .blur {
   filter: blur(10px);
 }
@@ -798,9 +798,11 @@ td:first-child {
     text-align: center;
     justify-content: center;
   }
+
   .title-tools-bar .title {
     margin-bottom: 1em;
   }
+
   .title-tools-bar > .tools > * {
     margin: 0 !important;
   }
@@ -808,10 +810,12 @@ td:first-child {
   .first-section > .row > .col-md-6:first-of-type {
     display: none;
   }
+
   .sidebar {
     width: var(--sidebar-width-1);
     padding: 18px 10px;
   }
+
   .sidebar > .sidebar-links > .sidebar-link {
     width: 41px;
     height: 41px;
@@ -837,10 +841,7 @@ td:first-child {
   ::-webkit-scrollbar-thumb {
     width: 3px;
     border-radius: 10px;
-  } */
-
-
-  .sidebar > .sidebar-user {
+  } */  .sidebar > .sidebar-user {
     width: 100%;
     padding: 15px 0;
   }

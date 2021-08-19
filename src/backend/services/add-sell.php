@@ -20,14 +20,40 @@ if (!empty($_POST)) {
           $userId = $reqUserId->fetch()->cookie_value;
           $qties = json_decode($_POST['qties']);
           $articles = json_decode($_POST['articles']);
+          $totality = 0;
           foreach ($articles as $key => $articleToken) {
-            $reqArticle = $pdo->prepare("SELECT price, qty FROM stock WHERE token = ?");
-            $reqUserId->execute([$articleToken]);
+            $reqArticle = $pdo->prepare("SELECT quantity, unitary_price FROM stocks WHERE token = ?");
+            $reqArticle->execute([$articleToken]);
             $article = $reqArticle->fetch();
+            $qty = (int) $qties[$key];
+            if ($qty <= $article->quantity) {
+              $totality = $totality + ($qty * ((int)$article->unitary_price));
+              $modifyCurentStock = $pdo->prepare('UPDATE stocks SET quantity = ? WHERE token = ?');
+              $modifyCurentStock->execute([(((int)$article->quantity) - $qty), $articleToken]);
+            }
           }
+          if (!isset($_POST['client_id'])) {
+            $clientId = 0;
+          } else {
+            # code...
+            $clientId = (int) $_POST['client_id'];
+          }
+          $date = date("Y-m-d");
+          $insertSell = $pdo->prepare('INSERT INTO sells (client_id, articles, qties, user_id, totality, sell_date, token) VALUES (?, ?, ?, ?, ?, ?, ?)');
+          $insertSell->execute([$clientId, json_encode($articles), json_encode($qties), $userId, $totality, $date, Random::random_string(30)]);
+          $toReturn = new ReqResponse(true);
+        } else {
+          $err = false;
+          $toReturn = new ReqResponse($err, 'Nous n\'arrivons pas à vérifier l\'utilisateur');
         }
+      } else {
+        $err = false;
+        $toReturn = new ReqResponse($err, 'Nous n\'arrivons pas à vérifier l\'utilisateur');
       }
       
+    } else {
+      $err = false;
+      $toReturn = new ReqResponse($err, 'Veuillez compléter tous les champs');
     }
 } else {
   $err = false;
