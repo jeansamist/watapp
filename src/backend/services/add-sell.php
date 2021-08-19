@@ -13,7 +13,7 @@ if (!empty($_POST)) {
       }
     }
     if (!$error) {
-      if (isset($_GET['userCookieToken'])) {
+      if (isset($_GET['userCookieToken']) AND isset($_GET['structure'])) {
         $reqUserId = $pdo->prepare('SELECT cookie_value FROM cookies WHERE token = ?');
         $reqUserId->execute([$_GET['userCookieToken']]);
         if ($reqUserId->rowCount() === 1) {
@@ -39,8 +39,8 @@ if (!empty($_POST)) {
             $clientId = (int) $_POST['client_id'];
           }
           $date = date("Y-m-d");
-          $insertSell = $pdo->prepare('INSERT INTO sells (client_id, articles, qties, user_id, totality, sell_date, token) VALUES (?, ?, ?, ?, ?, ?, ?)');
-          $insertSell->execute([$clientId, json_encode($articles), json_encode($qties), $userId, $totality, $date, Random::random_string(30)]);
+          $insertSell = $pdo->prepare('INSERT INTO sells (client_id, articles, qties, user_id, totality, sell_date, structure, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+          $insertSell->execute([$clientId, json_encode($articles), json_encode($qties), $userId, $totality, $date, $_GET["structure"], Random::random_string(30)]);
           $toReturn = new ReqResponse(true);
         } else {
           $err = false;

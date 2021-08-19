@@ -34,23 +34,11 @@ export default class ShoppingView extends Component {
       */
       tableSells: {
         tableTitle: createKey(),
-        thead: ['ghj', "ghjkl", "fghjk"],
+        thead: ['Loading...'],
         tbody: [
           {
             id: createKey(),
-            data: ["ghjkl", 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: ["ghjkl", 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: ["ghjkl", 'ghsd', 'mlkjh']
-          },
-          {
-            id: createKey(),
-            data: ["ghjkl", 'ghsd', 'mlkjh']
+            data: ["Loading..."]
           }
         ]
       },
@@ -66,6 +54,31 @@ export default class ShoppingView extends Component {
   }
 
   componentDidMount () {
+    fetch(`${Config.server}services/req_sells.php?structure=${this.state.structure}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      // (result);
+      if (result.response_data) {
+        this.setState({
+          tableSells: {
+            tableTitle: createKey(),
+            thead: ["Nom du client", "Articles achetées", "Total TC"],
+            tbody: result.response_data.map(sell => {
+              return {
+                id: sell.token,
+                data: [
+                  sell.clientName,
+                  JSON.parse(sell.articles).join(", "),
+                  sell.totality
+                ]
+              }
+            })
+          },
+        })
+      }
+    })
     fetch(`${Config.server}services/req_clients.php`)
     .then((response) => {
       return response.json();
@@ -255,7 +268,7 @@ export default class ShoppingView extends Component {
       if (this.state.clientId !== null) {
         data.append('client_id', this.state.clientId);
       }
-      fetch(`${Config.server}services/add-sell.php?userCookieToken=${localStorage.getItem('watapp_user')}`, {
+      fetch(`${Config.server}services/add-sell.php?userCookieToken=${localStorage.getItem('watapp_user')}&structure=${this.state.structure}`, {
         method: "POST",
         body: data,
         mode: "cors"
