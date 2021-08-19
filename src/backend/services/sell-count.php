@@ -14,7 +14,7 @@ try {
         $toReturn = new ReqResponse(false, "Il y a eu une erreur !");
     } else {
         $sellNumber = $sellSQLReq->rowcount();
-        $toReturn = new ReqResponse($sellNumber, "Nombre total de clients d'aujourd'hui");
+        $toReturn = new ReqResponse($sellNumber, "Nombre total de vente d'aujourd'hui");
     }
 } catch (Exception $e) {
     $toReturn = new ReqResponse(false, $e->getMessage());
