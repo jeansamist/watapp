@@ -95,11 +95,6 @@ export default class Sidebar extends Component {
           name: "Clients",
           ico: <PeopleFill />,
           href: "/watapp/clients/" + this.props.structure
-        },
-        {
-          name: "Parametres",
-          ico: <GearFill />,
-          href: "/watapp/options/" + this.props.structure
         }]})
       }
     })

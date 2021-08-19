@@ -39,7 +39,7 @@ if (!empty($_POST)) {
         $setUserReq->execute([json_encode($userOldStructures), $value]);
         
       }
-      $toReturn = new ReqResponse(true);         
+      $toReturn = new ReqResponse(true, $token);         
     } else {
       $err = false;
       $toReturn = new ReqResponse($err, 'Veiller complétez tous les champs');

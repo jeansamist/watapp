@@ -14,7 +14,7 @@ import { ChartLine } from '../components/Chart.jsx';
 import { TableOpenModal } from '../components/Tables.jsx';
 import { Button, ButtonOpenModal } from '../components/Forms/Buttons.jsx';
 import { Modal, ModalForm } from '../components/Modals.jsx';
-import { createKey, openModal, random } from '../config/functions.js';
+import { closeModal, createKey, openModal, random } from '../config/functions.js';
 import * as Config from "./../config/Variables"
 
 export default class ShoppingView extends Component {
@@ -98,6 +98,11 @@ export default class ShoppingView extends Component {
               currentQty: stock.quantity
             }
           }),
+        })
+      } else {
+        this.setState({
+          loading: true,
+          currentStocks: []
         })
       }
     })
@@ -257,7 +262,10 @@ export default class ShoppingView extends Component {
       })
       .then(response => response.json())
       .then(result => {
-        console.log(result);
+        if (result.response_data) {
+          closeModal('modal-sell')
+        }
+
       })
     } else {
 
