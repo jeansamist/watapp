@@ -9,7 +9,6 @@ try {
     $token = $_POST['structure'];
     //Time request_data
     $localTime = date('Y-m-d');
-    var_dump($localTime);
     // SQL Requests
     $buySQLReq = $pdo->prepare("SELECT * FROM sells WHERE sell_date = ? AND structure = ?");
     $buySQLReq->execute([
