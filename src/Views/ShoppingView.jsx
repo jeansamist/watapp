@@ -276,6 +276,54 @@ export default class ShoppingView extends Component {
       .then(response => response.json())
       .then(result => {
         if (result.response_data) {
+          fetch(`${Config.server}services/req_current_stock.php?structure=${this.state.structure}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            // (result);
+            if (result.response_data) {
+              this.setState({
+                currentStocks: result.response_data.map((stock) => {
+                  return {
+                    value: stock.token,
+                    label: `${stock.name} "${stock.unitary_price} FCFA"`,
+                    price: stock.unitary_price,
+                    currentQty: stock.quantity
+                  }
+                }),
+              })
+            } else {
+              this.setState({
+                currentStocks: []
+              })
+            }
+          })
+          fetch(`${Config.server}services/req_sells.php?structure=${this.state.structure}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            // (result);
+            if (result.response_data) {
+              this.setState({
+                tableSells: {
+                  tableTitle: createKey(),
+                  thead: ["Nom du client", "Articles achetées", "Total TC"],
+                  tbody: result.response_data.map(sell => {
+                    return {
+                      id: sell.token,
+                      data: [
+                        sell.clientName,
+                        JSON.parse(sell.articles).join(", "),
+                        sell.totality
+                      ]
+                    }
+                  })
+                },
+              })
+            }
+          })
           closeModal('modal-sell')
         }
 
