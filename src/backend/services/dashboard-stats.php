@@ -6,7 +6,7 @@ include_once '../config/classes/Autoloader.php';
 Autoloader::register();
 try {
     //Get token
-    $token = $_POST['structure'];
+    $token = $_GET['structure'];
     //Time request_data
     $localTime = date('Y-m-d');
     // SQL Requests
@@ -16,9 +16,10 @@ try {
         $token,
       ]);
 
-    $montantSQLReq = $pdo->prepare("SELECT totality FROM sells WHERE sell_date = ?");
+    $montantSQLReq = $pdo->prepare("SELECT totality FROM sells WHERE sell_date = ? AND structure = ?");
     $montantSQLReq->execute([
         $localTime,
+        $token
       ]);
 
     $visiteSQLReq = $pdo->prepare("SELECT * FROM sells");
@@ -37,7 +38,11 @@ try {
         // When Error !
         $toReturn = new ReqResponse(false, "Il y a eu une erreur !");
     } else {
-        $montantNumber = $montantSQLReq->rowcount();
+        $montantNumbers = $montantSQLReq->fetchAll();
+        $montantNumber = 0;
+        foreach ($montantNumbers as $value) {
+           $montantNumber = $montantNumber + ((int) $value->totality);
+        }
     }
 
     if ($visiteSQLReq === false) {

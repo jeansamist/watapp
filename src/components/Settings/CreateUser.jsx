@@ -11,10 +11,30 @@ export default class CreateUser extends Component {
   state = {
     err: false,
     pass: createKey(1, null, "upper") + createKey(5, "int", "upper"),
-    role: false
+    role: false,
+    structures: [],
+    structure: false
   }
   onChange (e, value) {
     this.setState({ pass: value.toLowerCase() + "." + createKey(1, 'text', "upper") + createKey(2, "int", "upper") })
+  }
+  componentDidMount () {
+    fetch(`${Config.server}services/req_structures.php`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      if (result.response_data) {
+        this.setState({
+          structures: result.response_data.map((e) => {
+            return {
+              value: e.token,
+              label: e.name
+            }
+          })
+        })
+      }
+    })
   }
   handdleSubmit () {
     let form = document.querySelector(".createUserForm")
@@ -36,15 +56,29 @@ export default class CreateUser extends Component {
         })
         data.append("role", this.state.role)
         data.append("password", this.state.pass)
-        fetch(`${Config.server}services/create_user.php`, {
-          method: "POST",
-          body: data,
-          mode: "cors"
-        })
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-        })
+        if (this.state.structure) {
+          data.append("structure", JSON.stringify([this.state.structure]))
+        }
+        if (this.state.role) {  
+          fetch(`${Config.server}services/create_user.php`, {
+            method: "POST",
+            body: data,
+            mode: "cors"
+          })
+          .then(response => response.json())
+          .then(result => {
+            if (result.response_data) {
+              inputs.forEach(input => {
+                input.value = "";
+              })
+              this.setState({ role: false, structure: false })
+            } else {
+              this.setState({ err: result.response_message })
+            }
+          })
+        } else {
+          this.setState({ err: "veillez selectioner un role" })
+        }
       } else {
         this.setState({ err: "veillez compléter tous les champs" })
       }
@@ -52,7 +86,14 @@ export default class CreateUser extends Component {
   }
   render() {
     const selectroleshandleChange = (val) => {
-      this.setState({ role: val.value })
+      if (val.value === "worker") {
+        this.setState({ role: val.value })
+      } else {
+        this.setState({ role: val.value, structure: false })
+      }
+    }
+    const selectStructurehandleChange = (val) => {
+      this.setState({ structure: val.value })
     }
     return (
       <div className="createUserForm">
@@ -70,6 +111,16 @@ export default class CreateUser extends Component {
             ]}
           />
         </div>
+        {this.state.role === "worker" ? <div className="field">
+          <div className="label">Selectioner la structure</div>
+          <Select
+            className="select"
+            onChange={selectStructurehandleChange}
+            name="colors"
+            options={this.state.structures}
+          />
+        </div> : ""}
+        
         <Field label="E-mail de l'utilisateur" name="mail" />
         <Field label="Numéro de téléphone de l'utilisateur" name="tel" type="tel" />
         <Field label="Identifiant de l'utilisateur" name="pseudo" onChange={this.onChange.bind(this)} />

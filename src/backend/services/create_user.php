@@ -25,7 +25,11 @@
         if ($reqUser->rowCount() ==  0) {
           if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             $insertUser = $pdo->prepare('INSERT INTO users (full_name, mail, tel, pseudo, password, user_role, structures) VALUE (?, ?, ?, ?, ?, ?, ?)');
-            $insertUser->execute([$fullname, $mail, $tel, $pseudo, $passwordHach, $role, "*"]);
+            if ($_POST['role'] === "worker" AND isset($_POST['structure'])) {
+              $insertUser->execute([$fullname, $mail, $tel, $pseudo, $passwordHach, $role, $_POST['structure']]);
+            } else {
+              $insertUser->execute([$fullname, $mail, $tel, $pseudo, $passwordHach, $role, "*"]);
+            }
             if ($insertUser) {
               $message = `
                   <div style="max-width: 700px; width: 100%; background: #f7fafd; color: #121c42; padding-bottom: 10px;">

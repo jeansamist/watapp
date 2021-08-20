@@ -359,7 +359,7 @@ export default class ShoppingView extends Component {
                       />
                     </CardWithoutFooter>
                   </div>
-                <ShoppingStats />
+                <ShoppingStats structure={this.state.structure} />
               </div>
             </section>
             <section>

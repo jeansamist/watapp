@@ -33,7 +33,7 @@ export default class DashboardView extends Component {
           <div className="container-fluid">
             <section className="first-section">
               <div className="row">
-                <Stats />
+                <Stats structure={this.state.structure} />
               </div>
             </section>
             <section className="first-section">
