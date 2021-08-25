@@ -20,6 +20,6 @@ $reqQuantities = $pdo->prepare("SELECT sell_date FROM sells WHERE sell_date <= ?
 $reqQuantities->execute([
     $this_week_ed,
     $this_week_sd
-    ]);
+  ]);
 $Quantities = $reqQuantities->fetchAll();
 echo json_encode(new ReqResponse([$Quantities]));
