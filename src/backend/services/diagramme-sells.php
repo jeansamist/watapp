@@ -6,37 +6,20 @@ include_once '../config/classes/Autoloader.php';
 include_once '../config/classes/splite-date.php';
 Autoloader::register();
 
-try {
-    //The week-end start day
-    $startDay = 'Mon';
-    //Get token
-    // $token = $_POST['structure'];
-    //Time request_data
-    $localTime = date('Y-m-d');
-    // SQL Requests
-    $dateSQLReq = "SELECT sell_date FROM sells ";
-    $dateSQLReq = $pdo->query($dateSQLReq);
-    if (in_array) {
-        # code...
-    }
-    
-    exit();
-    // Controller
-    if ($dateSQLReq === false) {
-        // When Error !
-        $toReturn = new ReqResponse(false, "Il y a eu une erreur !");
-    } else {
-        $dateNumber = $dateSQLReq->rowcount();
-        $toReturn = new ReqResponse($dateNumber, "Nombre total de vente d'aujourd'hui");
-    }
+$monday = strtotime("last monday");
 
-    exit();
+$monday = date('w', $monday)==date('w') ? $monday+7*86400 : $monday;
 
-    $mois = 8;
-    $jour = 18;
-    $annee = 2021;
-    $timestamp = mktime(0, 0, 0, $mois, $jour, $annee);
-    echo date('D', $timestamp);
-} catch (\Throwable $th) {
-    //throw $th;
-}
+$sunday = strtotime(date("Y-m-d",$monday)." +6 days");
+
+$this_week_sd = date("Y-m-d",$monday);
+
+$this_week_ed = date("Y-m-d",$sunday);
+
+$reqQuantities = $pdo->prepare("SELECT sell_date FROM sells WHERE sell_date <= ? AND sell_date >= ?");
+$reqQuantities->execute([
+    $this_week_ed,
+    $this_week_sd
+    ]);
+$Quantities = $reqQuantities->fetchAll();
+echo json_encode(new ReqResponse([$Quantities]));
